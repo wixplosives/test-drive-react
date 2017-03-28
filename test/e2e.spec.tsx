@@ -1,7 +1,6 @@
 import {ClientRenderer, simulate} from "../src";
 import React = require('react');
 import {expect} from "test-drive";
-import render = ReactDOM.render;
 
 class SampleComp extends React.Component<{}, { clicked: boolean }> {
     constructor(props: Object, context: any) {
