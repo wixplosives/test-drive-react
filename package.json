@@ -35,9 +35,9 @@
     "webpack-dev-server": "1.16.2"
   },
   "dependencies": {
-    "@types/react": "15.0.16",
-    "@types/react-addons-test-utils": "0.14.17",
+    "@types/react": "15.0.20",
     "@types/react-dom": "0.14.23",
+    "@types/react-addons-test-utils": "0.14.17",
     "react": "15.4.2",
     "react-addons-test-utils": "15.4.2",
     "react-dom": "15.4.2",
