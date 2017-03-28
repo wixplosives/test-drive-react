@@ -37,3 +37,4 @@ pre-bound to the container
 ## `cleanup()`
 
 Unmounts the root component and removes any container that had been created by the renderer.
+
