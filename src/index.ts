@@ -1,6 +1,6 @@
 import {Simulate, SyntheticEventData} from "react-addons-test-utils";
-export {chai, expect, selectDom, waitFor, waitForDom, sinon} from 'test-drive';
-export {ClientRenderer, RenderingContext} from './client-renderer';
+export * from 'test-drive';
+export * from './client-renderer';
 
 export type EventSimulator = (element: Element | null, eventData?: SyntheticEventData) => void;
 

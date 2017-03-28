@@ -2,8 +2,9 @@
   "name": "test-drive-react",
   "description": "Opinionated library for Test-Driven Development of React Components.",
   "version": "0.0.0",
-  "main": "dist/src/index.js",
+  "main": "./dist/src/index.js",
   "mainSrc": "src/index.ts",
+  "types": "./dist/src/index.d.ts",
   "scripts": {
     "clean": "rimraf ./dist",
     "build": "tsc -d",
