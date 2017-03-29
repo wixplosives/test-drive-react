@@ -1,7 +1,7 @@
 {
   "name": "test-drive-react",
   "description": "Opinionated library for Test-Driven Development of React Components.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "./dist/src/index.js",
   "mainSrc": "src/index.ts",
   "types": "./dist/src/index.d.ts",
@@ -41,7 +41,7 @@
     "react": "15.4.2",
     "react-addons-test-utils": "15.4.2",
     "react-dom": "15.4.2",
-    "test-drive": "0.0.56"
+    "test-drive": "0.0.57"
   },
   "author": "Jiri Tobisek",
   "repository": {
