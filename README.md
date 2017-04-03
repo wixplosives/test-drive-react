@@ -38,7 +38,7 @@ pre-bound to the container
 
 Unmounts the root component and removes any container that had been created by the renderer.
 
-## `simulate`
+## Event simulation
 
 Test Drive React provides the `simulate` module, which is basically the well-known
 [React simulate](https://facebook.github.io/react/docs/test-utils.html#simulate)
