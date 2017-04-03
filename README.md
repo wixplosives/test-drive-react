@@ -4,11 +4,11 @@ Opinionated library for Test-Driven Development of React components, extending
 [Test Drive](https://github.com/wix/test-drive) and providing its 
 [timing functions](https://github.com/wix/test-drive#waitfor-waitfordom),
 [DOM parts lookup](https://github.com/wix/test-drive#locating-your-dom-parts-selectdom),
-[presentce/absence matchers](https://github.com/wix/test-drive#the-present-and-absent-matchers) and
+[presence/absence matchers](https://github.com/wix/test-drive#the-present-and-absent-matchers) and
 [layout matchers](https://github.com/wix/test-drive#layout-matchers).
 
 In addition, it reexports [React simulate](https://facebook.github.io/react/docs/test-utils.html#simulate)
-testing utility and [integrated renderer]()
+testing utility and [integrated renderer](https://github.com/wix/test-drive-react#clientrenderer)
 
 
 # ClientRenderer
