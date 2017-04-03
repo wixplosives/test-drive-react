@@ -4,7 +4,7 @@ export type EventSimulator = (element: Element | null, eventData?: SyntheticEven
 // We're changing only the typing of Simulate: allows null, doesn't expect React comp
 export interface CustomSimulate {
     blur: EventSimulator;
-    change: (element: HTMLInputElement | null, newValue?: string) => void;
+    change: (element: Element | null, newValue?: string) => void;
     click: EventSimulator;
     copy: EventSimulator;
     cut: EventSimulator;
@@ -39,12 +39,26 @@ export interface CustomSimulate {
     wheel: EventSimulator;
 }
 
-function change(element: HTMLInputElement | null, newValue?: string) {
-    if(element) {
+function getGlobalsOf(element: Element): any {
+    if(element.ownerDocument && element.ownerDocument.defaultView) {
+        return element.ownerDocument.defaultView;
+    } else {
+        return window;
+    }
+}
+
+function isHTMLInputElement(element: Element): element is HTMLInputElement {
+    return element instanceof getGlobalsOf(element)['HTMLInputElement'];
+}
+
+function change(element: Element, newValue?: string) {
+    if(isHTMLInputElement(element)) {
         if(typeof newValue !== 'undefined') {
             element.value = newValue;
         }
         Simulate.change(element);
+    } else {
+        throw new Error(`Cannot simulate "change" event on "${element.tagName}" element.`);
     }
 }
 
