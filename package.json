@@ -41,7 +41,7 @@
     "react": "15.4.2",
     "react-addons-test-utils": "15.4.2",
     "react-dom": "15.4.2",
-    "test-drive": "0.0.62"
+    "test-drive": "0.0.63"
   },
   "author": "Jiri Tobisek",
   "repository": {
