@@ -7,7 +7,7 @@ Opinionated library for Test-Driven Development of React components, extending
 [presence/absence matchers](https://github.com/wix/test-drive#the-present-and-absent-matchers) and
 [layout matchers](https://github.com/wix/test-drive#layout-matchers).
 
-In addition, it reexports [React simulate](https://facebook.github.io/react/docs/test-utils.html#simulate)
+In addition, it adds some improvements to the [React simulate](https://facebook.github.io/react/docs/test-utils.html#simulate)
 testing utility and [integrated renderer](https://github.com/wix/test-drive-react#clientrenderer)
 
 
@@ -37,3 +37,15 @@ pre-bound to the container
 ## `cleanup()`
 
 Unmounts the root component and removes any container that had been created by the renderer.
+
+# `simulate`
+
+Test Drive React provides the `simulate` module, which is basically the well-known
+[React simulate](https://facebook.github.io/react/docs/test-utils.html#simulate)
+testing utility with some minor improvements:
+
+## `simulate.change(element, newValue)`
+
+As opposed to the standard `simulate.change()`, this version accepts the `newValue` as parameter
+and sets it as `.value` of the `element`. It assumes `element` is an 
+[`HTMLInputElement`](https://developer.mozilla.org/en/docs/Web/API/HTMLInputElement).
