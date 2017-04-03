@@ -9,7 +9,7 @@ Opinionated library for Test-Driven Development of React components, extending
 
 In addition, it adds [some improvements](#event-simulation) to the 
 [React simulate](https://facebook.github.io/react/docs/test-utils.html#simulate)
-testing utility and [integrated renderer](https://github.com/wix/test-drive-react#clientrenderer)
+testing utility and [integrated renderer](#clientrenderer)
 
 
 ## ClientRenderer
