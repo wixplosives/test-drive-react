@@ -47,12 +47,22 @@ function getGlobalsOf(element: Element): any {
     }
 }
 
-function isHTMLInputElement(element: Element): element is HTMLInputElement {
-    return element instanceof getGlobalsOf(element)['HTMLInputElement'];
+export interface GenericInputElement {
+    value: string;
+}
+
+function isInputElement(element: any): element is GenericInputElement {
+    const globalScope = getGlobalsOf(element);
+    const HTMLInputElement = globalScope['HTMLInputElement'];
+    const HTMLTextAreaElement = globalScope['HTMLTextAreaElement'];
+    const HTMLSelectElement = globalScope['HTMLSelectElement'];
+    return element instanceof  HTMLInputElement ||
+            element instanceof HTMLTextAreaElement ||
+            element instanceof HTMLSelectElement;
 }
 
 function change(element: Element, newValue?: string) {
-    if(isHTMLInputElement(element)) {
+    if(isInputElement(element)) {
         if(typeof newValue !== 'undefined') {
             element.value = newValue;
         }
