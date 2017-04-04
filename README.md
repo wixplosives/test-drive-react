@@ -48,5 +48,5 @@ testing utility with some minor improvements:
 ### `simulate.change(element, newValue)`
 
 As opposed to the standard `simulate.change()`, this version accepts the `newValue` as parameter
-and sets it as `.value` of the `element`. It assumes `element` is an 
-[`HTMLInputElement`](https://developer.mozilla.org/en/docs/Web/API/HTMLInputElement).
+and sets it as `.value` of the `element`. It also makes sure that `element` can actually fire the 
+[`change` event](https://developer.mozilla.org/en-US/docs/Web/Events/change).
