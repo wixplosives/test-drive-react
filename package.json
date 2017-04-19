@@ -1,7 +1,7 @@
 {
   "name": "test-drive-react",
   "description": "Opinionated library for Test-Driven Development of React Components.",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "main": "./dist/src/index.js",
   "mainSrc": "src/index.ts",
   "types": "./dist/src/index.d.ts",
@@ -27,7 +27,7 @@
     "mocha": "3.2.0",
     "mocha-env-reporter": "2.0.4",
     "mocha-loader": "1.1.1",
-    "npminject": "1.0.273",
+    "npminject": "1.0.274",
     "rimraf": "2.6.1",
     "typescript": "2.2.2",
     "ts-loader": "2.0.3",
@@ -36,12 +36,12 @@
   },
   "dependencies": {
     "@types/react": "15.0.22",
-    "@types/react-dom": "0.14.23",
-    "@types/react-addons-test-utils": "0.14.17",
+    "@types/react-dom": "15.5.0",
+    "@types/react-addons-test-utils": "0.14.18",
     "react": "15.5.4",
     "react-addons-test-utils": "15.5.1",
     "react-dom": "15.5.4",
-    "test-drive": "0.0.86"
+    "test-drive": "0.0.87"
   },
   "author": "Jiri Tobisek",
   "repository": {
