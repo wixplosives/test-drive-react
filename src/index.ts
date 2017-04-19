@@ -1,4 +1,4 @@
-import {Simulate, SyntheticEventData} from "react-addons-test-utils";
+import {Simulate, SyntheticEventData} from 'react-dom/test-utils';
 export * from 'test-drive';
 export * from './client-renderer';
 
@@ -42,6 +42,4 @@ export interface CustomSimulate {
 }
 
 // We're changing only the typing of Simulate: allows null, doesn't expect React comp
-const ReactSimulate = Simulate as CustomSimulate;
-
-export { ReactSimulate as simulate };
+export const simulate = Simulate as CustomSimulate;
