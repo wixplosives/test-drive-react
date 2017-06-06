@@ -91,13 +91,17 @@ describe('trigger', function () {
 
             const testNonInput = select('TEST_INPUT');
             expect(() => trigger.change(testNonInput, 'Mr Monkey')).to.throw('Trying to trigger "change" event on non-input element <DIV>');
-            return new Promise(resolve => setTimeout(resolve, 50))
+            return new Promise(resolve => setTimeout(resolve, 10))
                 .then(() => {
                     expect(onChange).to.not.been.called;
                     expect(onFocus).to.not.been.called;
                     expect(onInput).to.not.been.called;
                     expect(testNonInput).not.to.have.property('value');
                 });
+        });
+
+        it('fails gracefully for null element (interoperability with select())', function () {
+            expect(() => trigger.change(null, 'Mr Monkey')).to.throw('Trying to trigger "change" on "null" element.')
         });
 
     });

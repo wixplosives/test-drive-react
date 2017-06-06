@@ -4,6 +4,10 @@ export interface GenericInputElement {
     value: string;
 }
 
+export interface Focusable {
+    focus(): void;
+}
+
 function getGlobalsOf(element: Element): any {
     if(element.ownerDocument && element.ownerDocument.defaultView) {
         return element.ownerDocument.defaultView;
@@ -12,7 +16,7 @@ function getGlobalsOf(element: Element): any {
     }
 }
 
-function isInputElement(element: any): element is GenericInputElement {
+function isInputElement(element: Element): element is Element & GenericInputElement  {
     const globalScope = getGlobalsOf(element);
     const HTMLInputElement = globalScope['HTMLInputElement'];
     const HTMLTextAreaElement = globalScope['HTMLTextAreaElement'];
@@ -22,12 +26,27 @@ function isInputElement(element: any): element is GenericInputElement {
         element instanceof HTMLSelectElement;
 }
 
+function isFocusable(element: Element): element is Element & Focusable {
+    const globalScope = getGlobalsOf(element);
+    const HTMLElement = globalScope['HTMLElement'];
+    return element instanceof HTMLElement;
+}
+
+
 export function change(target: Element | null, newValue: string): void {
-    target.focus();
-    if(isInputElement(target)) {
-        target.value = newValue;
+    if(target) {
+        if(isFocusable(target)) {
+            target.focus();
+        }
+        if(isInputElement(target)) {
+            target.value = newValue;
+        } else {
+            throw new Error(`Trying to trigger "change" event on non-input element <${target.tagName}>`);
+        }
+        triggerChange(target);
+    } else {
+        throw new Error('Trying to trigger "change" on "null" element.');
     }
-    triggerChange(target);
 }
 
 export const trigger = {
