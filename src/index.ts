@@ -1,6 +1,8 @@
 import {Simulate, SyntheticEventData} from 'react-dom/test-utils';
 export * from 'test-drive';
 export * from './client-renderer';
+export * from './trigger';
+
 
 export type EventSimulator = (element: Element | null, eventData?: SyntheticEventData) => void;
 

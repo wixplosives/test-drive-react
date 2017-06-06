@@ -29,8 +29,8 @@
     "mocha-loader": "1.1.1",
     "npminject": "1.0.321",
     "rimraf": "2.6.1",
-    "typescript": "2.3.3",
     "ts-loader": "2.1.0",
+    "typescript": "2.3.3",
     "webpack": "1.14.0",
     "webpack-dev-server": "1.16.2"
   },
@@ -39,6 +39,7 @@
     "@types/react-dom": "15.5.0",
     "react": "15.5.4",
     "react-dom": "15.5.4",
+    "react-trigger-change": "1.0.2",
     "test-drive": "0.0.137"
   },
   "author": "Jiri Tobisek",
