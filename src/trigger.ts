@@ -1,11 +1,8 @@
 import triggerChange = require('react-trigger-change');
 
 export interface GenericInputElement {
-    value: string;
-}
-
-export interface Focusable {
     focus(): void;
+    value: string;
 }
 
 function getGlobalsOf(element: Element): any {
@@ -26,24 +23,16 @@ function isInputElement(element: Element): element is Element & GenericInputElem
         element instanceof HTMLSelectElement;
 }
 
-function isFocusable(element: Element): element is Element & Focusable {
-    const globalScope = getGlobalsOf(element);
-    const HTMLElement = globalScope['HTMLElement'];
-    return element instanceof HTMLElement;
-}
-
 
 export function change(target: Element | null, newValue: string): void {
     if(target) {
-        if(isFocusable(target)) {
-            target.focus();
-        }
         if(isInputElement(target)) {
+            target.focus();
             target.value = newValue;
+            triggerChange(target);
         } else {
             throw new Error(`Trying to trigger "change" event on non-input element <${target.tagName}>`);
         }
-        triggerChange(target);
     } else {
         throw new Error('Trying to trigger "change" on "null" element.');
     }

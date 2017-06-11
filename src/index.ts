@@ -1,5 +1,5 @@
 import {Simulate, SyntheticEventData} from 'react-dom/test-utils';
-export * from 'test-drive';
+export {chai, sinon, expect, layout, waitFor, waitForDom, selectDom} from 'test-drive';
 export * from './client-renderer';
 export * from './trigger';
 
