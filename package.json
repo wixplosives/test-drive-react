@@ -39,6 +39,7 @@
     "@types/react-dom": "15.5.0",
     "react": "15.5.4",
     "react-dom": "15.5.4",
+    "react-trigger-change": "1.0.2",
     "test-drive": "0.0.151"
   },
   "author": "Jiri Tobisek",
