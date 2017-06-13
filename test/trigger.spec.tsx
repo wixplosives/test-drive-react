@@ -1,5 +1,6 @@
 import {ClientRenderer, sinon, waitFor, expect, trigger} from "../src";
 import React = require('react');
+import * as testDrive from 'test-drive';
 
 function createSpy(): sinon.SinonSpy {
     return sinon.spy((event: { persist: ( )=> void }) => event.persist());
@@ -10,6 +11,12 @@ describe('trigger', function () {
 
     afterEach(function () {
         renderer.cleanup();
+    });
+
+    describe('.event', function () {
+        it('is inherited from test-drive', function() {
+            expect(trigger.event).to.equal(testDrive.trigger.event);
+        });
     });
 
     describe('.change()', function () {

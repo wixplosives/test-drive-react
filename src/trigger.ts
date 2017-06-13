@@ -1,5 +1,6 @@
 import triggerChange = require('react-trigger-change');
 import {isInputElement} from "test-drive/helpers";
+import * as testDrive from 'test-drive';
 
 export function change(target: Element | null, newValue: string): void {
     if(target) {
@@ -16,5 +17,6 @@ export function change(target: Element | null, newValue: string): void {
 }
 
 export const trigger = {
+    event: testDrive.trigger.event,
     change
 };
