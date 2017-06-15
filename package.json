@@ -7,7 +7,7 @@
   "types": "./dist/src/index.d.ts",
   "scripts": {
     "clean": "rimraf ./dist",
-    "build": "tsc",
+    "build": "tsc && ncp lib dist/lib",
     "bundle": "webpack --progress",
     "pretest": "npm run clean && npm run build && npm run bundle",
     "test": "npm run test:node && npm run test:browser",
@@ -29,17 +29,17 @@
     "mocha-loader": "1.1.1",
     "npminject": "1.0.336",
     "rimraf": "2.6.1",
-    "typescript": "2.3.4",
     "ts-loader": "2.1.0",
+    "typescript": "2.3.4",
     "webpack": "1.14.0",
     "webpack-dev-server": "1.16.2"
   },
   "dependencies": {
     "@types/react": "15.0.28",
     "@types/react-dom": "15.5.0",
+    "ncp": "^2.0.0",
     "react": "15.5.4",
     "react-dom": "15.5.4",
-    "react-trigger-change": "1.0.2",
     "test-drive": "0.0.154"
   },
   "author": "Jiri Tobisek",

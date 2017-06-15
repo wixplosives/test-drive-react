@@ -1,4 +1,4 @@
-import triggerChange = require('react-trigger-change');
+import triggerChange = require('../lib/react-trigger-change');
 import {isInputElement} from "test-drive/helpers";
 import * as testDrive from 'test-drive';
 
