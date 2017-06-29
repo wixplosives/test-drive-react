@@ -1,4 +1,5 @@
 # Test Drive React
+[![Build Status](https://travis-ci.org/wix/test-drive-react.svg?branch=master)](https://travis-ci.org/wix/test-drive-react)
 
 Opinionated library for Test-Driven Development of React components, extending 
 [Test Drive](https://github.com/wix/test-drive) and providing its 
