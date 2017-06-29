@@ -1,6 +1,7 @@
-import {ClientRenderer, sinon, waitFor, expect, trigger} from "../src";
-import React = require('react');
+import * as React from 'react';
 import * as testDrive from 'test-drive';
+
+import {ClientRenderer, sinon, waitFor, expect, trigger} from '../src';
 
 function createSpy(): sinon.SinonSpy {
     return sinon.spy((event: { persist: ( )=> void }) => event.persist());
@@ -26,7 +27,7 @@ describe('trigger', function () {
                 const onInput = createSpy();
                 const onFocus = createSpy();
                 const {select} = renderer.render(
-                    React.createElement(tagName,
+                    React.createElement(tagName as keyof React.ReactHTML,
                     {
                         onChange,
                         onFocus,

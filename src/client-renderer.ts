@@ -1,5 +1,5 @@
-import ReactDom = require('react-dom');
-import React = require('react');
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { selectDom, waitForDom } from 'test-drive';
 
 export interface RenderingContext<P> {
@@ -20,14 +20,14 @@ export class ClientRenderer {
 
             this.containers.push(container);
         }
-        const result = ReactDom.render(element, container);
+        const result = ReactDOM.render(element, container);
 
         return { container, result, select: selectDom(container), waitForDom: waitForDom.bind(null, container) };
     }
 
     cleanup() {
         this.containers.map(container => {
-            ReactDom.unmountComponentAtNode(container);
+            ReactDOM.unmountComponentAtNode(container);
             document.body.removeChild(container);
         });
         this.containers = [];

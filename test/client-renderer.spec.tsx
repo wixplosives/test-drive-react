@@ -1,5 +1,5 @@
-import React = require('react');
-import ReactDom = require('react-dom');
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { ClientRenderer, expect, sinon } from '../src';
 
 describe('Client renderer', function () {
@@ -21,7 +21,7 @@ describe('Client renderer', function () {
 
             expect(container).to.contain.text('It is working');
 
-            ReactDom.unmountComponentAtNode(container);
+            ReactDOM.unmountComponentAtNode(container);
         });
 
         it('should not append it to body automatically', function () {
@@ -30,22 +30,22 @@ describe('Client renderer', function () {
 
             expect(container.parentElement).to.equal(null);
 
-            ReactDom.unmountComponentAtNode(container);
+            ReactDOM.unmountComponentAtNode(container);
         });
 
         it('should return the container', function () {
             const userDefinedContainer = document.createElement('div');
-            const {container} = clientRenderer.render(<h1>It is working</h1>, userDefinedContainer);
+            const { container } = clientRenderer.render(<h1>It is working</h1>, userDefinedContainer);
 
             expect(container).to.equal(userDefinedContainer);
-            ReactDom.unmountComponentAtNode(userDefinedContainer);
+            ReactDOM.unmountComponentAtNode(userDefinedContainer);
         });
     });
 
     describe('when not provided with a container', function () {
 
         it('should return one already add it to body', function () {
-            const {container} = clientRenderer.render(<h2>Also this</h2>);
+            const { container } = clientRenderer.render(<h2>Also this</h2>);
 
             expect(container.parentNode).to.equal(document.body);
             expect(container).to.contain.text('Also this');
@@ -88,7 +88,7 @@ describe('Client renderer', function () {
             clientRenderer.cleanup();
 
             expect(componentWillUnmount).to.not.have.been.called;
-            ReactDom.unmountComponentAtNode(container);
+            ReactDOM.unmountComponentAtNode(container);
         });
     });
 });

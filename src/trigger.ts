@@ -1,10 +1,10 @@
 import triggerChange = require('../lib/react-trigger-change');
-import {isInputElement} from "test-drive/helpers";
 import * as testDrive from 'test-drive';
+import { isInputElement } from 'test-drive/helpers';
 
 export function change(target: Element | null, newValue: string): void {
-    if(target) {
-        if(isInputElement(target)) {
+    if (target) {
+        if (isInputElement(target)) {
             target.focus();
             target.value = newValue;
             triggerChange(target);
