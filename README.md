@@ -1,8 +1,9 @@
 # Test Drive React
+[![npm version](https://badge.fury.io/js/test-drive-react.svg)](https://www.npmjs.com/package/test-drive-react)
 [![Build Status](https://travis-ci.org/wix/test-drive-react.svg?branch=master)](https://travis-ci.org/wix/test-drive-react)
 
-Opinionated library for Test-Driven Development of React components, extending 
-[Test Drive](https://github.com/wix/test-drive) and providing its 
+Opinionated library for Test-Driven Development of React components, extending
+[Test Drive](https://github.com/wix/test-drive) and providing its
 [timing functions](https://github.com/wix/test-drive#waitfor-waitfordom),
 [DOM parts lookup](https://github.com/wix/test-drive#locating-your-dom-parts-selectdom),
 [presence/absence matchers](https://github.com/wix/test-drive#the-present-and-absent-matchers) and
@@ -20,7 +21,7 @@ and convenient way. It creates the holding container, if necessary, with uniform
 automatically binds to it all important Test Drive helper functions, and proivides clean-up
 mechanism.
 
-For a typical use, see the [end-to-end test](./test/e2e.spec.tsx). 
+For a typical use, see the [end-to-end test](./test/e2e.spec.tsx).
 
 The renderer is created simply by invoking `new ClientRenderer()`.
 
