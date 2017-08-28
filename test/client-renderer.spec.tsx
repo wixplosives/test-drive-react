@@ -1,6 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ClientRenderer, expect, sinon } from '../src';
+import {waitFor} from "test-drive";
+import {TestComponent, TestComponentDriver} from "./drivers.fixture";
+
 
 describe('Client renderer', function () {
     let clientRenderer: ClientRenderer;
@@ -91,4 +94,12 @@ describe('Client renderer', function () {
             ReactDOM.unmountComponentAtNode(container);
         });
     });
+
+    it('provides test driver', async function () {
+        const onAction = sinon.spy();
+        const {driver} = clientRenderer.render(<TestComponent onAction={onAction}/>).withDriver(TestComponentDriver);
+        driver.doAction();
+        await waitFor(() => expect(onAction).to.have.been.called);
+    });
 });
+

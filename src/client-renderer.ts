@@ -1,12 +1,26 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { selectDom, waitForDom } from 'test-drive';
+import { selectDom, waitForDom as _waitForDom } from 'test-drive';
+import {DriverBase} from "./driver-base";
+
+export type ReactCompInstance<P> = React.Component<P, React.ComponentState>;
 
 export interface RenderingContext<P> {
     container: HTMLDivElement;
-    result: React.Component<P, React.ComponentState> | Element | void;
+    result: ReactCompInstance<P> | Element | void;
     select<T extends Element>(...selectors: string[]): T | null;
     waitForDom(assertion: Function, timeout?: number): Promise<void>;
+    withDriver<D extends DriverBase>(DriverClass: DriverConstructor<D>): RenderingContextWithDriver<D>;
+}
+
+export interface RenderingContextWithDriver<D extends DriverBase> {
+    waitForDom(assertion: Function, timeout?: number): Promise<void>;
+    driver: D;
+}
+
+
+export type DriverConstructor<D extends DriverBase> = {
+    new (componentInstance: ReactCompInstance<any>): D
 }
 
 export class ClientRenderer {
@@ -21,8 +35,20 @@ export class ClientRenderer {
             this.containers.push(container);
         }
         const result = ReactDOM.render(element, container);
+        const waitForDom = _waitForDom.bind(null, container);
+        return {
+            container,
+            result,
+            select: selectDom(container),
+            waitForDom,
+            withDriver<D extends DriverBase>(DriverClass: DriverConstructor<D>): RenderingContextWithDriver<D> {
+                return {
+                    waitForDom,
+                    driver: new DriverClass(result as ReactCompInstance<any>)
+                }
+            }
 
-        return { container, result, select: selectDom(container), waitForDom: waitForDom.bind(null, container) };
+        };
     }
 
     cleanup() {
