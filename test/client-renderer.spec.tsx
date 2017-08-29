@@ -101,5 +101,11 @@ describe('Client renderer', function () {
         driver.doAction();
         await waitFor(() => expect(onAction).to.have.been.called);
     });
+
+    it('fails to provide mismatched driver', async function () {
+        class AnotherComponent extends TestComponent {};
+        expect(() => clientRenderer.render(<AnotherComponent />).withDriver(TestComponentDriver))
+            .to.throw('The driver/component mismatch. Driver creation failed.');
+    })
 });
 

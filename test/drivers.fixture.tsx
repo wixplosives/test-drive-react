@@ -12,9 +12,8 @@ export class TestComponent extends React.Component<{ onAction?: () => void }, {}
 }
 
 export class TestComponentDriver extends DriverBase {
-    constructor(instance: TestComponent) {
-        super(TestComponent, instance);
-    }
+
+    static ComponentClass = TestComponent;
 
     get samplePart(): HTMLDivElement {
         return this.select('SAMPLE_PART') as HTMLDivElement;
