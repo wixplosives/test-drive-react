@@ -91,7 +91,5 @@ export class TestCompositeComponentDriver extends DriverBase {
 
     static ComponentClass = TestCompositeComponent;
 
-    get testComponent(): TestComponentDriver {
-        return new TestComponentDriver(() => this.select('TEST_COMPONENT'));
-    }
+    public readonly testComponent = new TestComponentDriver(() => this.select('TEST_COMPONENT'));
 }
