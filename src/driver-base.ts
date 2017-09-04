@@ -10,13 +10,13 @@ export type DriverConstructor<D extends DriverBase> = {
     ComponentClass: React.ComponentClass | React.StatelessComponent;
 }
 
-export class DriverBase {
-    public readonly instance: ReactCompInstance | null = null;
-    private readonly rootNodeEval: () => Element;
+export class DriverBase<T extends ReactCompInstance = ReactCompInstance> {
+    public readonly instance: T | null = null;
+    private readonly rootNodeEval: (() => Element) | null = null;
 
     constructor(rootNodeEval: () => Element);
     constructor(instance: ReactCompInstance);
-    constructor(initialValue: (() => Element) | ReactCompInstance ) {
+    constructor(initialValue: (() => Element) | T ) {
         if(initialValue instanceof Function) {
             this.rootNodeEval = initialValue;
         } else {
@@ -27,13 +27,10 @@ export class DriverBase {
     public get root(): Element {
         if(this.instance) {
             return ReactDom.findDOMNode(this.instance);
+        } else if(this.rootNodeEval) {
+            return this.rootNodeEval();
         } else {
-            const rootElement = this.rootNodeEval();
-            if(rootElement) {
-                return rootElement;
-            } else {
-                throw new Error('Neither mounted component instance nor function return root element provided. ');
-            }
+            throw new Error('Neither mounted component instance nor function return root element provided. ');
         }
     }
 

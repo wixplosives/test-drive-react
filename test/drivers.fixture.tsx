@@ -64,16 +64,15 @@ export class TestNullComponent extends React.Component< { on?: boolean} > {
     }
 }
 
-export class TestNullComponentDriver extends DriverBase {
+export class TestNullComponentDriver extends DriverBase<TestNullComponent> {
     static ComponentClass = TestNullComponent;
-    public readonly instance: TestNullComponent;
 
     get samplePart(): HTMLDivElement {
         return this.select('SAMPLE_PART') as HTMLDivElement;
     }
 
     toggle():void {
-        this.instance.toggle();
+        this.instance!.toggle();
     }
 
 }
