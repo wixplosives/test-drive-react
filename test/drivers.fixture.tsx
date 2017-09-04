@@ -30,3 +30,18 @@ export class TestComponentDriver extends DriverBase {
         (this.root as HTMLElement).click();
     }
 }
+
+export const TestStatelessComponent: React.SFC<{}> = () => (
+    <div>
+        <div data-automation-id="SAMPLE_PART">{SAMPLE_INITIAL_LABEL}</div>
+    </div>
+);
+
+export class TestStatelessComponentDriver extends DriverBase {
+
+    static ComponentClass = TestStatelessComponent;
+
+    get samplePart(): HTMLDivElement {
+        return this.select('SAMPLE_PART') as HTMLDivElement;
+    }
+}

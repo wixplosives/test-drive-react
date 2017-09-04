@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { selectDom, waitForDom as _waitForDom } from 'test-drive';
-import {assertDriverMatch, DriverBase} from "./driver-base";
+import {DriverBase, DriverConstructor} from "./driver-base";
 import {isElement} from "test-drive/dist/src/helpers";
 
 export type ReactCompInstance<P> = React.Component<P, React.ComponentState>;
@@ -20,12 +20,9 @@ export interface RenderingContextWithDriver<D extends DriverBase> {
 }
 
 
-export type DriverConstructor<D extends DriverBase> = {
-    new (rootNode: Element): D;
-    ComponentClass: Function;
-}
 
-function getRootElement(value: ReactCompInstance<any> | Element | void): Element | null {
+
+function getRootElement(value: ReactCompInstance<any> | Element | void, container: HTMLElement): Element | null {
     if(value) {
         if(isElement(value)) {
             return value;
@@ -33,7 +30,7 @@ function getRootElement(value: ReactCompInstance<any> | Element | void): Element
             return ReactDOM.findDOMNode(value);
         }
     } else {
-        return null;
+        return container.firstElementChild;
     }
 
 }
@@ -51,7 +48,7 @@ export class ClientRenderer {
         }
         const result = ReactDOM.render(element, container);
         const waitForDom = _waitForDom.bind(null, container);
-        const rootNode = getRootElement(result);
+        const rootNode = getRootElement(result, container);
         return {
             container,
             result,
@@ -59,7 +56,9 @@ export class ClientRenderer {
             waitForDom,
             withDriver<D extends DriverBase>(DriverClass: DriverConstructor<D>): RenderingContextWithDriver<D> {
                 if(rootNode) {
-                    assertDriverMatch(DriverClass, result as ReactCompInstance<any>);
+                    if(DriverClass.ComponentClass !== element.type) {
+                        throw new Error('The driver/component mismatch. Driver creation failed.');
+                    }
                     return {
                         waitForDom,
                         driver: new DriverClass(rootNode)

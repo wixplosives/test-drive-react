@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ClientRenderer, expect, sinon } from '../src';
-import {SAMPLE_INITIAL_LABEL, SAMPLE_MUTATED_LABEL, TestComponent, TestComponentDriver} from "./drivers.fixture";
+import {SAMPLE_INITIAL_LABEL, SAMPLE_MUTATED_LABEL, TestComponent, TestComponentDriver, TestStatelessComponent, TestStatelessComponentDriver} from "./drivers.fixture";
 
 
 describe('Client renderer', function () {
@@ -94,18 +94,26 @@ describe('Client renderer', function () {
         });
     });
 
-    it('provides test driver', async function () {
-        const onAction = sinon.spy();
-        const {driver, waitForDom} = clientRenderer.render(<TestComponent onAction={onAction}/>).withDriver(TestComponentDriver);
-        expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
-        driver.doAction();
-        await waitForDom(() => expect(driver.samplePart).to.have.text(SAMPLE_MUTATED_LABEL));
+    describe('provides test driver', function () {
+        it('for classic component', async function () {
+            const {driver, waitForDom} = clientRenderer.render(<TestComponent />).withDriver(TestComponentDriver);
+            expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
+            driver.doAction();
+            await waitForDom(() => expect(driver.samplePart).to.have.text(SAMPLE_MUTATED_LABEL));
+        });
+
+        it('for functional component', function () {
+            const {driver} = clientRenderer.render(<TestStatelessComponent />).withDriver(TestStatelessComponentDriver);
+            expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
+        });
+
+        it('but fails when driver and component mismatch', function () {
+            class AnotherComponent extends TestComponent {};
+            expect(() => clientRenderer.render(<AnotherComponent />).withDriver(TestComponentDriver))
+                .to.throw('The driver/component mismatch. Driver creation failed.');
+        });
     });
 
-    it('fails to provide mismatched driver', function () {
-        class AnotherComponent extends TestComponent {};
-        expect(() => clientRenderer.render(<AnotherComponent />).withDriver(TestComponentDriver))
-            .to.throw('The driver/component mismatch. Driver creation failed.');
-    });
+
 });
 
