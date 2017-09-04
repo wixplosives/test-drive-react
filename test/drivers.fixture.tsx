@@ -31,7 +31,7 @@ export class TestComponentDriver extends DriverBase {
     }
 }
 
-export const TestStatelessComponent: React.SFC<{}> = () => (
+export const TestStatelessComponent: React.SFC = () => (
     <div>
         <div data-automation-id="SAMPLE_PART">{SAMPLE_INITIAL_LABEL}</div>
     </div>
@@ -44,4 +44,35 @@ export class TestStatelessComponentDriver extends DriverBase {
     get samplePart(): HTMLDivElement {
         return this.select('SAMPLE_PART') as HTMLDivElement;
     }
+}
+
+export class TestNullComponent extends React.Component< { on?: boolean} > {
+    state = {
+        on: false
+    };
+
+    toggle() {
+        this.setState({ on: true });
+    }
+
+    render() {
+        if(this.state.on) {
+            return <div data-automation-id='SAMPLE_PART'>ON</div>;
+        } else {
+            return null;
+        }
+    }
+}
+
+export class TestNullComponentDriver extends DriverBase {
+    static ComponentClass = TestNullComponent;
+
+    get samplePart(): HTMLDivElement {
+        return this.select('SAMPLE_PART') as HTMLDivElement;
+    }
+
+    toggle():void {
+        (this.instance as TestNullComponent).toggle();
+    }
+
 }

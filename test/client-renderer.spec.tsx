@@ -1,7 +1,10 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ClientRenderer, expect, sinon } from '../src';
-import {SAMPLE_INITIAL_LABEL, SAMPLE_MUTATED_LABEL, TestComponent, TestComponentDriver, TestStatelessComponent, TestStatelessComponentDriver} from "./drivers.fixture";
+import {
+    SAMPLE_INITIAL_LABEL, SAMPLE_MUTATED_LABEL, TestComponent, TestComponentDriver, TestNullComponentDriver,
+    TestStatelessComponent, TestStatelessComponentDriver, TestNullComponent
+} from "./drivers.fixture";
 
 
 describe('Client renderer', function () {
@@ -105,6 +108,12 @@ describe('Client renderer', function () {
         it('for functional component', function () {
             const {driver} = clientRenderer.render(<TestStatelessComponent />).withDriver(TestStatelessComponentDriver);
             expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
+        });
+
+        it('for component returning null', async function () {
+            const {driver, waitForDom} = clientRenderer.render(<TestNullComponent />).withDriver(TestNullComponentDriver);
+            driver.toggle();
+            await waitForDom(() => expect(driver.samplePart).to.be.present());
         });
 
         it('but fails when driver and component mismatch', function () {

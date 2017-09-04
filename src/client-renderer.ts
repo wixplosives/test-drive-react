@@ -2,9 +2,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { selectDom, waitForDom as _waitForDom } from 'test-drive';
 import {DriverBase, DriverConstructor} from "./driver-base";
-import {isElement} from "test-drive/dist/src/helpers";
 
-export type ReactCompInstance<P> = React.Component<P, React.ComponentState>;
+export type ReactCompInstance<P = any> = React.Component<P, React.ComponentState>;
 
 export interface RenderingContext<P> {
     container: HTMLDivElement;
@@ -17,22 +16,6 @@ export interface RenderingContext<P> {
 export interface RenderingContextWithDriver<D extends DriverBase> {
     waitForDom(assertion: Function, timeout?: number): Promise<void>;
     driver: D;
-}
-
-
-
-
-function getRootElement(value: ReactCompInstance<any> | Element | void, container: HTMLElement): Element | null {
-    if(value) {
-        if(isElement(value)) {
-            return value;
-        } else {
-            return ReactDOM.findDOMNode(value);
-        }
-    } else {
-        return container.firstElementChild;
-    }
-
 }
 
 export class ClientRenderer {
@@ -48,23 +31,19 @@ export class ClientRenderer {
         }
         const result = ReactDOM.render(element, container);
         const waitForDom = _waitForDom.bind(null, container);
-        const rootNode = getRootElement(result, container);
         return {
             container,
             result,
             select: selectDom(container),
             waitForDom,
             withDriver<D extends DriverBase>(DriverClass: DriverConstructor<D>): RenderingContextWithDriver<D> {
-                if(rootNode) {
-                    if(DriverClass.ComponentClass !== element.type) {
-                        throw new Error('The driver/component mismatch. Driver creation failed.');
-                    }
-                    return {
-                        waitForDom,
-                        driver: new DriverClass(rootNode)
-                    }
-                } else {
-                    throw new Error('Cannot create driver: Render didn\'t create any DOM element.');
+                if(DriverClass.ComponentClass !== element.type) {
+                    throw new Error('The driver/component mismatch. Driver creation failed.');
+                }
+                const driver = result ? new DriverClass(result) : new DriverClass(container!);
+                return {
+                    waitForDom,
+                    driver
                 }
             }
         };
