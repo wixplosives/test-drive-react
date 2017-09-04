@@ -40,7 +40,9 @@ export class ClientRenderer {
                 if(DriverClass.ComponentClass !== element.type) {
                     throw new Error('The driver/component mismatch. Driver creation failed.');
                 }
-                const driver = result ? new DriverClass(result) : new DriverClass(container!);
+                const driver = result
+                    ? new DriverClass(result as ReactCompInstance)
+                    : new DriverClass(() => container!.firstElementChild!);
                 return {
                     waitForDom,
                     driver
