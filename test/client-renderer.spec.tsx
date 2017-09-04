@@ -3,7 +3,8 @@ import * as ReactDOM from 'react-dom';
 import { ClientRenderer, expect, sinon } from '../src';
 import {
     SAMPLE_INITIAL_LABEL, SAMPLE_MUTATED_LABEL, TestComponent, TestComponentDriver, TestNullComponentDriver,
-    TestStatelessComponent, TestStatelessComponentDriver, TestNullComponent
+    TestStatelessComponent, TestStatelessComponentDriver, TestNullComponent, TestCompositeComponent,
+    TestCompositeComponentDriver
 } from "./drivers.fixture";
 
 
@@ -114,6 +115,13 @@ describe('Client renderer', function () {
             const {driver, waitForDom} = clientRenderer.render(<TestNullComponent />).withDriver(TestNullComponentDriver);
             driver.toggle();
             await waitForDom(() => expect(driver.samplePart).to.be.present());
+        });
+
+        it('for composite components', async function () {
+            const {driver, waitForDom} = clientRenderer.render(<TestCompositeComponent/>).withDriver(TestCompositeComponentDriver);
+            expect(driver.testComponent.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
+            driver.testComponent.doAction();
+            await waitForDom(() => expect(driver.testComponent.samplePart).to.have.text(SAMPLE_MUTATED_LABEL));
         });
 
         it('but fails when driver and component mismatch', function () {

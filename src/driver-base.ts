@@ -13,12 +13,16 @@ export type DriverConstructor<D extends DriverBase> = {
 export class DriverBase {
     public readonly container: Element | null = null;
     public readonly instance: ReactCompInstance | null = null;
+    private readonly rootNodeEval: () => Element;
 
     constructor(container: Element);
+    constructor(rootNodeEval: () => Element);
     constructor(instance: ReactCompInstance);
-    constructor(initialValue: Element | ReactCompInstance) {
+    constructor(initialValue: Element | (() => Element) | ReactCompInstance ) {
         if(initialValue instanceof Element) {
             this.container = initialValue;
+        } else if(initialValue instanceof Function) {
+            this.rootNodeEval = initialValue;
         } else {
             this.instance = initialValue;
         }
@@ -27,6 +31,8 @@ export class DriverBase {
     public get root(): Element {
         if(this.instance) {
             return ReactDom.findDOMNode(this.instance);
+        } else if(this.rootNodeEval) {
+            return this.rootNodeEval();
         } else {
             const rootElement = this.container && this.container.firstElementChild;
             if(rootElement) {
