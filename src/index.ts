@@ -1,6 +1,7 @@
 import { Simulate, SyntheticEventData } from 'react-dom/test-utils';
 export { chai, sinon, expect, layout, waitFor, waitForDom, selectDom } from 'test-drive';
 export * from './client-renderer';
+export * from './driver-base';
 export * from './trigger';
 
 export type EventSimulator = (element: Element | null, eventData?: SyntheticEventData) => void;

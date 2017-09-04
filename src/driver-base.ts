@@ -2,10 +2,10 @@ import {selectDom} from "test-drive";
 import {DriverConstructor, ReactCompInstance} from "./client-renderer";
 
 export class DriverBase {
-    constructor(protected readonly rootNode: Element) {}
+    constructor(public readonly root: Element) {}
 
     protected select<T extends Element>(...selectors: string[]): T {
-        return selectDom(this.rootNode).apply(null, selectors);
+        return selectDom(this.root).apply(null, selectors);
     }
 }
 

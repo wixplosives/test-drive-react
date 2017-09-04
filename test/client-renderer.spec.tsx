@@ -1,8 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ClientRenderer, expect, sinon } from '../src';
-import {waitFor} from "test-drive";
-import {TestComponent, TestComponentDriver} from "./drivers.fixture";
+import {SAMPLE_INITIAL_LABEL, SAMPLE_MUTATED_LABEL, TestComponent, TestComponentDriver} from "./drivers.fixture";
 
 
 describe('Client renderer', function () {
@@ -97,15 +96,16 @@ describe('Client renderer', function () {
 
     it('provides test driver', async function () {
         const onAction = sinon.spy();
-        const {driver} = clientRenderer.render(<TestComponent onAction={onAction}/>).withDriver(TestComponentDriver);
+        const {driver, waitForDom} = clientRenderer.render(<TestComponent onAction={onAction}/>).withDriver(TestComponentDriver);
+        expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
         driver.doAction();
-        await waitFor(() => expect(onAction).to.have.been.called);
+        await waitForDom(() => expect(driver.samplePart).to.have.text(SAMPLE_MUTATED_LABEL));
     });
 
-    it('fails to provide mismatched driver', async function () {
+    it('fails to provide mismatched driver', function () {
         class AnotherComponent extends TestComponent {};
         expect(() => clientRenderer.render(<AnotherComponent />).withDriver(TestComponentDriver))
             .to.throw('The driver/component mismatch. Driver creation failed.');
-    })
+    });
 });
 
