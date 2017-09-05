@@ -3,11 +3,9 @@ import * as ReactDOM from 'react-dom';
 import { selectDom, waitForDom as _waitForDom } from 'test-drive';
 import {DriverBase, DriverConstructor} from "./driver-base";
 
-export type ReactCompInstance<P = any> = React.Component<P, React.ComponentState>;
-
 export interface RenderingContext<P> {
     container: HTMLDivElement;
-    result: ReactCompInstance<P> | Element | void;
+    result: React.Component<P, React.ComponentState> | Element | void;
     select<T extends Element>(...selectors: string[]): T | null;
     waitForDom(assertion: Function, timeout?: number): Promise<void>;
     withDriver<D extends DriverBase>(DriverClass: DriverConstructor<D>): RenderingContextWithDriver<D>;
@@ -40,9 +38,7 @@ export class ClientRenderer {
                 if(DriverClass.ComponentClass !== element.type) {
                     throw new Error('The driver/component mismatch. Driver creation failed.');
                 }
-                const driver = result
-                    ? new DriverClass(result as ReactCompInstance)
-                    : new DriverClass(() => container!.firstElementChild!);
+                const driver = new DriverClass(() => container!.firstElementChild!);
                 return {
                     waitForDom,
                     driver

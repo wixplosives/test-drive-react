@@ -6,6 +6,7 @@ import {
     TestStatelessComponent, TestStatelessComponentDriver, TestNullComponent, TestCompositeComponent,
     TestCompositeComponentDriver
 } from "./drivers.fixture";
+import {waitFor} from "test-drive";
 
 
 describe('Client renderer', function () {
@@ -112,7 +113,11 @@ describe('Client renderer', function () {
         });
 
         it('for component returning null', async function () {
-            const {driver, waitForDom} = clientRenderer.render(<TestNullComponent />).withDriver(TestNullComponentDriver);
+            let componentInstance: TestNullComponent | null = null;
+            const {waitForDom} = clientRenderer.render(<TestNullComponent ref={instance => componentInstance = instance as TestNullComponent}/>);
+            await waitFor(() => expect(componentInstance).to.be.an('object'));
+            const driver = new TestNullComponentDriver(componentInstance!);
+            expect(driver.samplePart).to.equal(null);
             driver.toggle();
             await waitForDom(() => expect(driver.samplePart).to.be.present());
         });

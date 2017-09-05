@@ -1,5 +1,6 @@
 import {DriverBase} from "../src";
 import React = require('react');
+import ReactDOM = require('react-dom');
 
 export const SAMPLE_INITIAL_LABEL = 'Sample Part';
 export const SAMPLE_MUTATED_LABEL = 'Mutated sample part';
@@ -42,7 +43,7 @@ export class TestStatelessComponentDriver extends DriverBase {
     static ComponentClass = TestStatelessComponent;
 
     get samplePart(): HTMLDivElement {
-        return this.select('SAMPLE_PART') as HTMLDivElement;
+        return this.select<HTMLDivElement>('SAMPLE_PART');
     }
 }
 
@@ -64,8 +65,12 @@ export class TestNullComponent extends React.Component< { on?: boolean} > {
     }
 }
 
-export class TestNullComponentDriver extends DriverBase<TestNullComponent> {
+export class TestNullComponentDriver extends DriverBase {
     static ComponentClass = TestNullComponent;
+
+    constructor(public readonly instance: TestNullComponent) {
+        super(() => ReactDOM.findDOMNode(instance));
+    }
 
     get samplePart(): HTMLDivElement {
         return this.select('SAMPLE_PART') as HTMLDivElement;
