@@ -1,6 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ClientRenderer, expect, sinon } from '../src';
+import {
+    SAMPLE_INITIAL_LABEL, SAMPLE_MUTATED_LABEL, TestComponent, TestComponentDriver, TestNullComponentDriver,
+    TestStatelessComponent, TestStatelessComponentDriver, TestNullComponent, TestCompositeComponent,
+    TestCompositeComponentDriver
+} from "./drivers.fixture";
+import {waitFor} from "test-drive";
+
 
 describe('Client renderer', function () {
     let clientRenderer: ClientRenderer;
@@ -91,4 +98,44 @@ describe('Client renderer', function () {
             ReactDOM.unmountComponentAtNode(container);
         });
     });
+
+    describe('provides test driver', function () {
+        it('for classic component', async function () {
+            const {driver, waitForDom} = clientRenderer.render(<TestComponent />).withDriver(TestComponentDriver);
+            expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
+            driver.doAction();
+            await waitForDom(() => expect(driver.samplePart).to.have.text(SAMPLE_MUTATED_LABEL));
+        });
+
+        it('for functional component', function () {
+            const {driver} = clientRenderer.render(<TestStatelessComponent />).withDriver(TestStatelessComponentDriver);
+            expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
+        });
+
+        it('for component returning null', async function () {
+            let componentInstance: TestNullComponent | null = null;
+            const {waitForDom} = clientRenderer.render(<TestNullComponent ref={instance => componentInstance = instance as TestNullComponent}/>);
+            await waitFor(() => expect(componentInstance).to.be.an('object'));
+            const driver = new TestNullComponentDriver(componentInstance!);
+            expect(driver.samplePart).to.equal(null);
+            driver.toggle();
+            await waitForDom(() => expect(driver.samplePart).to.be.present());
+        });
+
+        it('for composite components', async function () {
+            const {driver, waitForDom} = clientRenderer.render(<TestCompositeComponent/>).withDriver(TestCompositeComponentDriver);
+            expect(driver.testComponent.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
+            driver.testComponent.doAction();
+            await waitForDom(() => expect(driver.testComponent.samplePart).to.have.text(SAMPLE_MUTATED_LABEL));
+        });
+
+        it('but fails when driver and component mismatch', function () {
+            class AnotherComponent extends TestComponent {};
+            expect(() => clientRenderer.render(<AnotherComponent />).withDriver(TestComponentDriver))
+                .to.throw('The driver/component mismatch. Driver creation failed.');
+        });
+    });
+
+
 });
+

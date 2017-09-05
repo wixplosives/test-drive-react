@@ -1,12 +1,19 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { selectDom, waitForDom } from 'test-drive';
+import { selectDom, waitForDom as _waitForDom } from 'test-drive';
+import {DriverBase, DriverConstructor} from "./driver-base";
 
 export interface RenderingContext<P> {
     container: HTMLDivElement;
     result: React.Component<P, React.ComponentState> | Element | void;
     select<T extends Element>(...selectors: string[]): T | null;
     waitForDom(assertion: Function, timeout?: number): Promise<void>;
+    withDriver<D extends DriverBase>(DriverClass: DriverConstructor<D>): RenderingContextWithDriver<D>;
+}
+
+export interface RenderingContextWithDriver<D extends DriverBase> {
+    waitForDom(assertion: Function, timeout?: number): Promise<void>;
+    driver: D;
 }
 
 export class ClientRenderer {
@@ -21,8 +28,23 @@ export class ClientRenderer {
             this.containers.push(container);
         }
         const result = ReactDOM.render(element, container);
-
-        return { container, result, select: selectDom(container), waitForDom: waitForDom.bind(null, container) };
+        const waitForDom = _waitForDom.bind(null, container);
+        return {
+            container,
+            result,
+            select: selectDom(container),
+            waitForDom,
+            withDriver<D extends DriverBase>(DriverClass: DriverConstructor<D>): RenderingContextWithDriver<D> {
+                if(DriverClass.ComponentClass !== element.type) {
+                    throw new Error('The driver/component mismatch. Driver creation failed.');
+                }
+                const driver = new DriverClass(() => container!.firstElementChild!);
+                return {
+                    waitForDom,
+                    driver
+                }
+            }
+        };
     }
 
     cleanup() {
