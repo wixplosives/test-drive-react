@@ -14,6 +14,7 @@ export interface RenderingContext<P> {
 export interface RenderingContextWithDriver<D extends DriverBase> {
     waitForDom(assertion: Function, timeout?: number): Promise<void>;
     driver: D;
+    container: HTMLDivElement;
 }
 
 export class ClientRenderer {
@@ -41,7 +42,8 @@ export class ClientRenderer {
                 const driver = new DriverClass(() => container!.firstElementChild!);
                 return {
                     waitForDom,
-                    driver
+                    driver,
+                    container: container!,
                 }
             }
         };
