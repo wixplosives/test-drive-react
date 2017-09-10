@@ -141,6 +141,7 @@ describe('Client renderer', function () {
             ).withDriver(TestCompositeComponentDriver);
 
             expect(container).to.equal(userDefinedContainer);
+            ReactDOM.unmountComponentAtNode(userDefinedContainer);
         });
     });
 
