@@ -8,7 +8,6 @@ import {
 } from "./drivers.fixture";
 import {waitFor} from "test-drive";
 
-
 describe('Client renderer', function () {
     let clientRenderer: ClientRenderer;
 
@@ -133,6 +132,15 @@ describe('Client renderer', function () {
             class AnotherComponent extends TestComponent {};
             expect(() => clientRenderer.render(<AnotherComponent />).withDriver(TestComponentDriver))
                 .to.throw('The driver/component mismatch. Driver creation failed.');
+        });
+
+        it('returns provided container', function () {
+            const userDefinedContainer = document.createElement('div');
+            const {container} = clientRenderer.render(
+                <TestCompositeComponent/>, userDefinedContainer
+            ).withDriver(TestCompositeComponentDriver);
+
+            expect(container).to.equal(userDefinedContainer);
         });
     });
 
