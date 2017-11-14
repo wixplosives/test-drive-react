@@ -1,9 +1,9 @@
 import {selectDom} from "test-drive";
 import React = require('react');
 
-export type DriverConstructor<D extends DriverBase> = {
+export type DriverConstructor<D extends DriverBase, P = {}> = {
     new(rootNodeEval: () => Element): D;
-    ComponentClass: React.ComponentClass | React.StatelessComponent;
+    ComponentClass: React.ComponentType<P>;
 }
 
 export class DriverBase {
