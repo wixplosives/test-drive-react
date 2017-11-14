@@ -10,7 +10,25 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 use: {
-                    loader: 'ts-loader'
+                    loader: 'ts-loader',
+                    options: {
+                        compilerOptions: {
+                            declaration: false
+                        }
+                    }
+                }
+            },
+            {
+                test: /\.js$/,
+                include: [
+                    path.resolve(__dirname, 'node_modules/chai-as-promised'),
+                    path.resolve(__dirname, 'node_modules/chai-style')
+                ],
+                loader: 'ts-loader',
+                options: {
+                    // needed so it has a separate transpilation instance
+                    instance: 'lib-compat',
+                    transpileOnly: true
                 }
             }
         ]
