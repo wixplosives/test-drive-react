@@ -18,12 +18,16 @@
     "react-dom": ">=15.5.0"
   },
   "dependencies": {
-    "test-drive": "^0.6.0"
+    "test-drive": "^0.6.1"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.5",
+    "@types/chai-dom": "^0.0.5",
     "@types/mocha": "^2.2.44",
     "@types/react": "15",
     "@types/react-dom": "15",
+    "@types/sinon": "^4.0.0",
+    "@types/sinon-chai": "^2.7.29",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.0.1",
