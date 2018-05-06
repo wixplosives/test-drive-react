@@ -69,7 +69,7 @@ export class TestNullComponentDriver extends DriverBase {
     static ComponentClass = TestNullComponent;
 
     constructor(public readonly instance: TestNullComponent) {
-        super(() => ReactDOM.findDOMNode(instance));
+        super(() => ReactDOM.findDOMNode(instance) as Element);
     }
 
     get samplePart(): HTMLDivElement {
