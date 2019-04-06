@@ -1,6 +1,9 @@
+# test-drive-react specific
+cjs
+esm
+dist
 .vscode
 .idea
-dist
 .history
 .DS_Store
 

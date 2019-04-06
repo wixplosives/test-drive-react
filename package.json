@@ -2,60 +2,60 @@
   "name": "test-drive-react",
   "version": "0.8.1",
   "description": "Opinionated library for Test-Driven Development of React Components.",
-  "main": "./dist/src/index.js",
-  "types": "./dist/src/index.d.ts",
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "types": "./esm/index.d.ts",
   "scripts": {
-    "clean": "rimraf ./dist",
-    "build": "tsc && ncp lib dist/lib",
-    "prepare": "yarn build",
-    "test": "yarn test:browser",
-    "test:browser": "karma start --single-run",
-    "start": "webpack-dev-server --progress"
+    "clean": "rimraf ./cjs ./esm",
+    "prebuild": "yarn clean",
+    "build": "yarn build:cjs && yarn build:esm",
+    "build:cjs": "tsc -p src --outDir cjs --module commonjs",
+    "build:esm": "tsc -p src --outDir esm --module esnext",
+    "lint": "tslint -p tsconfig.base.json",
+    "pretest": "yarn lint",
+    "test": "mocha-pup \"./test/**/*.ts?(x)\" -c webpack.config.js",
+    "prepack": "yarn build"
   },
   "peerDependencies": {
     "react": ">=15.5.0",
     "react-dom": ">=15.5.0"
   },
   "dependencies": {
-    "test-drive": "^0.6.2"
+    "test-drive": "^1.0.3"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.3",
-    "@types/chai-dom": "^0.0.6",
-    "@types/mocha": "^5.2.0",
+    "@ts-tools/node": "^0.9.3",
+    "@ts-tools/webpack-loader": "^0.8.8",
+    "@types/chai": "^4.1.7",
+    "@types/chai-dom": "^0.0.7",
+    "@types/mocha": "^5.2.6",
     "@types/react": "16",
     "@types/react-dom": "16",
-    "@types/sinon": "^4.3.1",
-    "@types/sinon-chai": "^2.7.29",
-    "karma": "^2.0.2",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-mocha": "^1.3.0",
-    "karma-webpack": "^3.0.0",
-    "mocha": "^5.1.1",
-    "mocha-loader": "^1.1.3",
-    "ncp": "^2.0.0",
-    "react": "16",
-    "react-dom": "16",
-    "rimraf": "^2.6.2",
-    "ts-loader": "^4.2.0",
-    "typescript": "~2.8.3",
-    "webpack": "^4.7.0",
-    "webpack-cli": "^2.1.3",
-    "webpack-dev-server": "^3.1.4"
+    "@types/sinon": "^7.0.11",
+    "@types/sinon-chai": "^3.2.2",
+    "mocha": "^6.0.2",
+    "mocha-pup": "^0.1.12",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "rimraf": "^2.6.3",
+    "tslint": "^5.15.0",
+    "typescript": "~3.4.1",
+    "webpack": "^4.29.6"
   },
   "files": [
-    "dist/src",
-    "dist/lib"
+    "cjs",
+    "esm",
+    "src",
+    "!src/tsconfig.json"
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:wix/test-drive-react.git"
+    "url": "git@github.com:wixplosives/test-drive-react.git"
   },
   "author": "Jiri Tobisek",
   "bugs": {
-    "url": "https://github.com/wix/test-drive-react/issues"
+    "url": "https://github.com/wixplosives/test-drive-react/issues"
   },
-  "homepage": "https://github.com/wix/test-drive-react#readme",
+  "homepage": "https://github.com/wixplosives/test-drive-react#readme",
   "license": "MIT"
 }

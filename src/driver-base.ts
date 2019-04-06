@@ -1,21 +1,39 @@
-import {selectDom} from "test-drive";
-import React = require('react');
+import React from 'react';
+import { selectDom } from 'test-drive';
 
-export type DriverConstructor<D extends DriverBase, P = {}> = {
-    new(rootNodeEval: () => Element): D;
+export interface IDriverConstructor<D extends DriverBase, P = {}, E extends Element | Text | null = Element> {
     ComponentClass: React.ComponentType<P>;
+    new (rootNodeEval: () => E): D;
 }
 
-export class DriverBase {
-    constructor(private readonly rootNodeEval: () => Element) {}
+export class DriverBase<E extends Element | Text | null = Element> {
+    constructor(private readonly rootNodeEval: () => E) {}
 
-    public get root(): Element {
+    public get root() {
         return this.rootNodeEval();
     }
 
-    protected select<T extends Element>(...selectors: string[]): T {
-        const rootElement: Element = this.root;
-        return rootElement ? selectDom(this.root).apply(null, selectors) : null;
+    public get ensuredRoot() {
+        const root = this.rootNodeEval();
+        if (root === null) {
+            throw new Error(`Cannot find root`);
+        }
+        return root;
+    }
+
+    protected select(...selectors: string[]) {
+        const { ensuredRoot } = this;
+        if (!(ensuredRoot instanceof Element)) {
+            throw new Error(`root is not an Element.`);
+        }
+        return selectDom(ensuredRoot)(...selectors);
+    }
+
+    protected ensuredSelect(...selectors: string[]) {
+        const element = this.select(...selectors);
+        if (element === null) {
+            throw new Error(`Cannot find element for selectors: ${selectors.join(' ')}`);
+        }
+        return element;
     }
 }
-

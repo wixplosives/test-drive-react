@@ -1,100 +1,98 @@
-import {DriverBase} from "../src";
-import React = require('react');
-import ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { DriverBase } from '../src';
 
 export const SAMPLE_INITIAL_LABEL = 'Sample Part';
 export const SAMPLE_MUTATED_LABEL = 'Mutated sample part';
 
-export class TestComponent extends React.Component<{ onAction?: () => void }, {}> {
-    state = {
+export class TestComponent extends React.Component<{ onAction?: () => void }> {
+    public state = {
         label: SAMPLE_INITIAL_LABEL
     };
 
-    render() {
+    public render() {
         return (
             <div onClick={() => this.setState({ label: SAMPLE_MUTATED_LABEL })} {...this.props}>
                 <div data-automation-id="SAMPLE_PART">{this.state.label}</div>
             </div>
-        )
+        );
     }
 }
 
-export class TestComponentDriver extends DriverBase {
+export class TestComponentDriver extends DriverBase<HTMLElement> {
+    public static ComponentClass = TestComponent;
 
-    static ComponentClass = TestComponent;
-
-    get samplePart(): HTMLDivElement {
-        return this.select('SAMPLE_PART') as HTMLDivElement;
+    get samplePart() {
+        return this.ensuredSelect('SAMPLE_PART') as HTMLDivElement;
     }
 
-    doAction() {
-        (this.root as HTMLElement).click();
+    public clickRoot() {
+        this.ensuredRoot.click();
     }
 }
 
-export const TestStatelessComponent: React.SFC = () => (
+export const TestStatelessComponent: React.FunctionComponent = () => (
     <div>
         <div data-automation-id="SAMPLE_PART">{SAMPLE_INITIAL_LABEL}</div>
     </div>
 );
 
 export class TestStatelessComponentDriver extends DriverBase {
+    public static ComponentClass = TestStatelessComponent;
 
-    static ComponentClass = TestStatelessComponent;
-
-    get samplePart(): HTMLDivElement {
-        return this.select<HTMLDivElement>('SAMPLE_PART');
+    get samplePart() {
+        return this.ensuredSelect('SAMPLE_PART') as HTMLDivElement;
     }
 }
 
-export class TestNullComponent extends React.Component< { on?: boolean} > {
-    state = {
+export class TestNullComponent extends React.Component<{}, { on?: boolean }> {
+    public state = {
         on: false
     };
 
-    toggle() {
+    public toggle() {
         this.setState({ on: true });
     }
 
-    render() {
-        if(this.state.on) {
-            return <div data-automation-id='SAMPLE_PART'>ON</div>;
+    public render() {
+        if (this.state.on) {
+            return <div data-automation-id="SAMPLE_PART">ON</div>;
         } else {
             return null;
         }
     }
 }
 
-export class TestNullComponentDriver extends DriverBase {
-    static ComponentClass = TestNullComponent;
+export class TestNullComponentDriver extends DriverBase<HTMLDivElement | null> {
+    public static ComponentClass = TestNullComponent;
 
     constructor(public readonly instance: TestNullComponent) {
-        super(() => ReactDOM.findDOMNode(instance) as Element);
+        super(() => ReactDOM.findDOMNode(instance) as HTMLDivElement | null);
     }
 
-    get samplePart(): HTMLDivElement {
-        return this.select('SAMPLE_PART') as HTMLDivElement;
+    get samplePart() {
+        return this.ensuredSelect('SAMPLE_PART') as HTMLDivElement;
     }
 
-    toggle():void {
-        this.instance!.toggle();
+    public toggle() {
+        this.instance.toggle();
     }
-
 }
 
 export class TestCompositeComponent extends React.Component {
-    render() {
+    public render() {
         return (
             <div>
-                <TestComponent data-automation-id="TEST_COMPONENT"/>
+                <TestComponent data-automation-id="TEST_COMPONENT" />
             </div>
-        )
+        );
     }
 }
 
-export class TestCompositeComponentDriver extends DriverBase {
+export class TestCompositeComponentDriver extends DriverBase<HTMLDivElement> {
+    public static ComponentClass = TestCompositeComponent;
 
-    static ComponentClass = TestCompositeComponent;
-
-    public readonly testComponent = new TestComponentDriver(() => this.select('TEST_COMPONENT'));
+    public readonly testComponent = new TestComponentDriver(
+        () => this.ensuredSelect('TEST_COMPONENT') as HTMLDivElement
+    );
 }

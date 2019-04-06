@@ -4,7 +4,6 @@
 
 Opinionated library for Test-Driven Development of React components, extending
 [Test Drive](https://github.com/wix/test-drive) and providing its
-[timing functions](https://github.com/wix/test-drive#waitfor-waitfordom),
 [DOM parts lookup](https://github.com/wix/test-drive#locating-your-dom-parts-selectdom),
 [presence/absence matchers](https://github.com/wix/test-drive#the-present-and-absent-matchers) and
 [event triggering](https://github.com/wix/test-drive#event-triggering)
@@ -34,8 +33,6 @@ Returns `RenderingContext` with following fields:
  - `result` - rendered root component (either DOM Element or React component instance)
  - `select` - [DOM selector](https://github.com/wix/test-drive#locating-your-dom-parts-selectdom)
 pre-bound to the container
- - `waitForDom` - [DOM timing function](https://github.com/wix/test-drive#waitfor-waitfordom)
-pre-bound to the container
 
 ## `cleanup()`
 
@@ -55,16 +52,16 @@ For [example](.test/drivers.fixture.tsx), consider a `TestComponent`. There shou
 relevant implementation of its driver, e.g.:
 
 ```tsx
-export class TestComponentDriver extends DriverBase {
+export class TestComponentDriver extends DriverBase<HTMLElement> {
 
     static ComponentClass = TestComponent;
 
-    get samplePart(): HTMLDivElement {
-        return this.select('SAMPLE_PART') as HTMLDivElement;
+    get samplePart() {
+        return this.ensuredSelect('SAMPLE_PART') as HTMLDivElement;
     }
 
     doAction() {
-        (this.root as HTMLElement).click();
+        this.root.click();
     }
 }
 ```
@@ -81,7 +78,7 @@ private.
 The driver then should be instantiated and used through `ClientRenderer`, e.g.:
 
 ```tsx
-const {driver, waitForDom} = clientRenderer.render(<TestComponent />).withDriver(TestComponentDriver);
+const {driver} = clientRenderer.render(<TestComponent />).withDriver(TestComponentDriver);
 expect(driver.samplePart).to.be.present();
 ```
 
@@ -89,9 +86,6 @@ Note that the `.withDriver()` function returns `RenderingContextWithDriver`, whi
 members:
 
  - `driver` - instance of the component driver
- 
- - `waitForDom` - [DOM timing function](https://github.com/wix/test-drive#waitfor-waitfordom)
-pre-bound to the container (passed from the original rendering result).
 
 In the case of composite components, the drivers should mirror their structure as well. `.samplePart` in
 the above example should, therefore, reference another (relevant) component driver, rather than plain DOM Element,

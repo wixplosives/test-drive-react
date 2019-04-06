@@ -1,84 +1,62 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { ClientRenderer, expect, sinon } from '../src';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { ClientRenderer, expect, sinon, waitFor } from '../src';
 import {
-    SAMPLE_INITIAL_LABEL, SAMPLE_MUTATED_LABEL, TestComponent, TestComponentDriver, TestNullComponentDriver,
-    TestStatelessComponent, TestStatelessComponentDriver, TestNullComponent, TestCompositeComponent,
+    SAMPLE_INITIAL_LABEL,
+    SAMPLE_MUTATED_LABEL,
+    TestComponent,
+    TestComponentDriver,
+    TestNullComponentDriver,
+    TestStatelessComponent,
+    TestStatelessComponentDriver,
+    TestNullComponent,
+    TestCompositeComponent,
     TestCompositeComponentDriver
-} from "./drivers.fixture";
-import {waitFor} from "test-drive";
+} from './drivers.fixture';
 
-describe('Client renderer', function () {
-    let clientRenderer: ClientRenderer;
+describe('Client Renderer', () => {
+    const clientRenderer = new ClientRenderer();
+    afterEach(() => clientRenderer.cleanup());
 
-    beforeEach(function () {
-        clientRenderer = new ClientRenderer();
+    it('creates a container, adds it to the body, and renders into it', () => {
+        const { container } = clientRenderer.render(<h2>Also this</h2>);
+
+        expect(container.parentNode).to.equal(document.body);
+        expect(container).to.contain.text('Also this');
     });
 
-    afterEach(function () {
-        clientRenderer.cleanup();
+    it('uses provided container does not automatically add it to the body', () => {
+        const userDefinedContainer = document.createElement('div');
+
+        const { container } = clientRenderer.render(<h1>It is working</h1>, userDefinedContainer);
+
+        expect(container).to.equal(userDefinedContainer);
+        expect(container).to.contain.text('It is working');
+        expect(container.parentElement).to.equal(null);
+
+        ReactDOM.unmountComponentAtNode(container);
     });
 
-    describe('when provided with a container', function () {
-        it('should render the provided vdom into it', function () {
-            const container = document.createElement('div');
-
-            clientRenderer.render(<h1>It is working</h1>, container);
-
-            expect(container).to.contain.text('It is working');
-
-            ReactDOM.unmountComponentAtNode(container);
-        });
-
-        it('should not append it to body automatically', function () {
-            const container = document.createElement('div');
-            clientRenderer.render(<h1>It is working</h1>, container);
-
-            expect(container.parentElement).to.equal(null);
-
-            ReactDOM.unmountComponentAtNode(container);
-        });
-
-        it('should return the container', function () {
-            const userDefinedContainer = document.createElement('div');
-            const { container } = clientRenderer.render(<h1>It is working</h1>, userDefinedContainer);
-
-            expect(container).to.equal(userDefinedContainer);
-            ReactDOM.unmountComponentAtNode(userDefinedContainer);
-        });
-    });
-
-    describe('when not provided with a container', function () {
-
-        it('should return one already add it to body', function () {
-            const { container } = clientRenderer.render(<h2>Also this</h2>);
-
-            expect(container.parentNode).to.equal(document.body);
-            expect(container).to.contain.text('Also this');
-        });
-
-    });
-
-    describe('cleanup', function () {
-        class TestComp extends React.Component<any, any> {
-            componentWillUnmount() {
+    describe('cleanup', () => {
+        class TestComp extends React.Component<{ componentWillUnmount(): void }> {
+            public componentWillUnmount() {
                 this.props.componentWillUnmount();
             }
-            render() {
+            public render() {
                 return <div />;
             }
         }
 
-        it('should unmount components rendered into auto-created containers', function () {
+        it('should unmount components rendered into auto-created containers', () => {
             const componentWillUnmount = sinon.spy();
             clientRenderer.render(<TestComp componentWillUnmount={componentWillUnmount} />);
 
             clientRenderer.cleanup();
 
-            expect(componentWillUnmount).to.have.been.calledOnce;
+            expect(componentWillUnmount.getCalls()).to.have.lengthOf(1);
         });
 
-        it('should not try to unmount an already unmounted component', function () {
+        it('should not try to unmount an already unmounted component', () => {
             const componentWillUnmount = sinon.spy();
             clientRenderer.render(<TestComp componentWillUnmount={componentWillUnmount} />);
 
@@ -86,65 +64,77 @@ describe('Client renderer', function () {
             clientRenderer.cleanup();
         });
 
-        it('should not unmount components rendered into provided containers', function () {
+        it('should not unmount components rendered into provided containers', () => {
             const componentWillUnmount = sinon.spy();
             const container = document.createElement('div');
             clientRenderer.render(<TestComp componentWillUnmount={componentWillUnmount} />, container);
 
             clientRenderer.cleanup();
 
-            expect(componentWillUnmount).to.not.have.been.called;
+            expect(componentWillUnmount.getCalls()).to.have.lengthOf(0);
             ReactDOM.unmountComponentAtNode(container);
         });
     });
 
-    describe('provides test driver', function () {
-        it('for classic component', async function () {
-            const {driver, waitForDom} = clientRenderer.render(<TestComponent />).withDriver(TestComponentDriver);
+    describe('withDriver', () => {
+        it('for classic component', async () => {
+            const { driver } = clientRenderer.render(<TestComponent />).withDriver(TestComponentDriver);
             expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
-            driver.doAction();
-            await waitForDom(() => expect(driver.samplePart).to.have.text(SAMPLE_MUTATED_LABEL));
+            driver.clickRoot();
+            await waitFor(() => expect(driver.samplePart).to.have.text(SAMPLE_MUTATED_LABEL));
         });
 
-        it('for functional component', function () {
-            const {driver} = clientRenderer.render(<TestStatelessComponent />).withDriver(TestStatelessComponentDriver);
+        it('for functional component', () => {
+            const { driver } = clientRenderer
+                .render(<TestStatelessComponent />)
+                .withDriver(TestStatelessComponentDriver);
             expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
         });
 
-        it('for component returning null', async function () {
+        it('for component returning null', async () => {
             let componentInstance: TestNullComponent | null = null;
-            const {waitForDom} = clientRenderer.render(<TestNullComponent ref={instance => componentInstance = instance as TestNullComponent}/>);
+
+            clientRenderer.render(<TestNullComponent ref={(instance) => (componentInstance = instance)} />);
+
             await waitFor(() => expect(componentInstance).to.be.an('object'));
+
             const driver = new TestNullComponentDriver(componentInstance!);
-            expect(driver.samplePart).to.equal(null);
+            expect(driver.root).to.equal(null);
+
             driver.toggle();
-            await waitForDom(() => expect(driver.samplePart).to.be.present());
+
+            await waitFor(() => expect(driver.samplePart).to.be.present());
         });
 
-        it('for composite components', async function () {
-            const {driver, waitForDom} = clientRenderer.render(<TestCompositeComponent/>).withDriver(TestCompositeComponentDriver);
+        it('for composite components', async () => {
+            const { driver } = clientRenderer
+                .render(<TestCompositeComponent />)
+                .withDriver(TestCompositeComponentDriver);
+
             expect(driver.testComponent.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
-            driver.testComponent.doAction();
-            await waitForDom(() => expect(driver.testComponent.samplePart).to.have.text(SAMPLE_MUTATED_LABEL));
+
+            driver.testComponent.clickRoot();
+
+            await waitFor(() => expect(driver.testComponent.samplePart).to.have.text(SAMPLE_MUTATED_LABEL));
         });
 
-        it('but fails when driver and component mismatch', function () {
-            class AnotherComponent extends TestComponent {};
-            expect(() => clientRenderer.render(<AnotherComponent />).withDriver(TestComponentDriver))
-                .to.throw('The driver/component mismatch. Driver creation failed.');
+        it('but fails when driver and component mismatch', () => {
+            class AnotherComponent extends TestComponent {}
+
+            expect(() => clientRenderer.render(<AnotherComponent />).withDriver(TestComponentDriver)).to.throw(
+                'The driver/component mismatch. Driver creation failed.'
+            );
         });
 
-        it('returns provided container', function () {
+        it('returns provided container', () => {
             const userDefinedContainer = document.createElement('div');
-            const {container} = clientRenderer.render(
-                <TestCompositeComponent/>, userDefinedContainer
-            ).withDriver(TestCompositeComponentDriver);
+
+            const { container } = clientRenderer
+                .render(<TestCompositeComponent />, userDefinedContainer)
+                .withDriver(TestCompositeComponentDriver);
 
             expect(container).to.equal(userDefinedContainer);
             ReactDOM.unmountComponentAtNode(userDefinedContainer);
         });
     });
-
-
 });
-

@@ -1,18 +1,19 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { selectDom, waitForDom as _waitForDom } from 'test-drive';
-import { DriverBase, DriverConstructor } from "./driver-base";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { selectDom } from 'test-drive';
+import { DriverBase, IDriverConstructor } from './driver-base';
 
-export interface RenderingContext<P = {}> {
+export interface IRenderingContext<P = {}> {
     container: HTMLDivElement;
     result: void | Element | React.Component<P>;
-    select<T extends Element>(...selectors: string[]): T | null;
-    waitForDom(assertion: Function, timeout?: number): Promise<void>;
-    withDriver<D extends DriverBase>(DriverClass: DriverConstructor<D, P>): RenderingContextWithDriver<D>;
+    select(...selectors: string[]): Element | null;
+    ensuredSelect(...selectors: string[]): Element;
+    withDriver<D extends DriverBase, E extends Element | Text | null>(
+        DriverClass: IDriverConstructor<D, P, E>
+    ): IRenderingContextWithDriver<D>;
 }
 
-export interface RenderingContextWithDriver<D extends DriverBase> {
-    waitForDom(assertion: Function, timeout?: number): Promise<void>;
+export interface IRenderingContextWithDriver<D extends DriverBase> {
     driver: D;
     container: HTMLDivElement;
 }
@@ -20,7 +21,7 @@ export interface RenderingContextWithDriver<D extends DriverBase> {
 export class ClientRenderer {
     private containers: Element[] = [];
 
-    render<P = {}>(element: React.ReactElement<P>, container?: HTMLDivElement): RenderingContext<P> {
+    public render<P = {}>(element: React.ReactElement<P>, container?: HTMLDivElement): IRenderingContext<P> {
         if (!container) {
             container = document.createElement('div');
             container.setAttribute('style', 'position: fixed; top: 0; left: 0; right: 0;');
@@ -29,31 +30,38 @@ export class ClientRenderer {
             this.containers.push(container);
         }
         const result = ReactDOM.render(element, container);
-        const waitForDom = _waitForDom.bind(null, container);
+        const select = selectDom(container);
         return {
             container,
             result,
-            select: selectDom(container),
-            waitForDom,
-            withDriver<D extends DriverBase>(DriverClass: DriverConstructor<D, P>): RenderingContextWithDriver<D> {
+            select,
+            ensuredSelect(...selectors) {
+                const foundElement = select(...selectors);
+                if (!foundElement) {
+                    throw new Error(`Cannot find element for selectors: ${selectors.join(' ')}`);
+                }
+                return foundElement;
+            },
+            withDriver<D extends DriverBase, E extends Element | Text | null>(
+                DriverClass: IDriverConstructor<D, P, E>
+            ): IRenderingContextWithDriver<D> {
                 if (DriverClass.ComponentClass !== element.type) {
                     throw new Error('The driver/component mismatch. Driver creation failed.');
                 }
-                const driver = new DriverClass(() => container!.firstElementChild!);
+                const driver = new DriverClass(() => container!.firstElementChild as E);
                 return {
-                    waitForDom,
                     driver,
-                    container: container!,
-                }
+                    container: container!
+                };
             }
         };
     }
 
-    cleanup() {
-        this.containers.map(container => {
+    public cleanup() {
+        for (const container of this.containers) {
             ReactDOM.unmountComponentAtNode(container);
             document.body.removeChild(container);
-        });
+        }
         this.containers = [];
     }
 }
