@@ -1,6 +1,6 @@
 {
   "name": "test-drive-react",
-  "version": "0.8.1",
+  "version": "1.0.0",
   "description": "Opinionated library for Test-Driven Development of React Components.",
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
