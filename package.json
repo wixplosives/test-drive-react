@@ -26,7 +26,7 @@
   "devDependencies": {
     "@ts-tools/node": "^0.9.10",
     "@ts-tools/webpack-loader": "^0.8.14",
-    "@types/chai": "^4.2.0",
+    "@types/chai": "^4.2.2",
     "@types/chai-dom": "^0.0.8",
     "@types/mocha": "^5.2.7",
     "@types/react": "16",
@@ -37,10 +37,10 @@
     "mocha-pup": "^0.1.18",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "rimraf": "^2.6.3",
-    "tslint": "^5.18.0",
-    "typescript": "~3.5.3",
-    "webpack": "^4.39.1"
+    "rimraf": "^3.0.0",
+    "tslint": "^5.20.0",
+    "typescript": "~3.6.2",
+    "webpack": "^4.39.3"
   },
   "files": [
     "cjs",
