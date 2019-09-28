@@ -24,9 +24,8 @@
     "test-drive": "^1.0.3"
   },
   "devDependencies": {
-    "@ts-tools/node": "^0.9.10",
     "@ts-tools/webpack-loader": "^0.8.14",
-    "@types/chai": "^4.2.2",
+    "@types/chai": "^4.2.3",
     "@types/chai-dom": "^0.0.8",
     "@types/mocha": "^5.2.7",
     "@types/react": "16",
@@ -35,12 +34,12 @@
     "@types/sinon-chai": "^3.2.3",
     "mocha": "^6.2.0",
     "mocha-pup": "^0.1.18",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "react": "^16.10.1",
+    "react-dom": "^16.10.1",
     "rimraf": "^3.0.0",
     "tslint": "^5.20.0",
     "typescript": "~3.6.3",
-    "webpack": "^4.39.3"
+    "webpack": "^4.41.0"
   },
   "files": [
     "cjs",
