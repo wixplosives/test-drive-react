@@ -3869,7 +3869,7 @@ sinon-chai@^3.4.0:
   resolved "https://registry.yarnpkg.com/sinon-chai/-/sinon-chai-3.4.0.tgz#06fb88dee80decc565106a3061d380007f21e18d"
   integrity sha512-BpVxsjEkGi6XPbDXrgWUe7Cb1ZzIfxKUbu/MmH5RoUnS7AXpKo3aIYIyQUg0FMvlUL05aPt7VZuAdaeQhEnWxg==
 
-sinon@^8.0.1:
+sinon@^8.0.4:
   version "8.0.4"
   resolved "https://registry.yarnpkg.com/sinon/-/sinon-8.0.4.tgz#eb13242fa50bf876c54e88bdc96f281a0dd08a53"
   integrity sha512-cFsmgmvsgFb87e7SV7IcekogITlHX2KmlplyI9Pda0FH1Z8Ms/kWbpLs25Idp0m6ZJ3HEEjhaYYXbcTtWWUn4w==
@@ -4193,10 +4193,10 @@ terser@^4.1.2, terser@^4.3.9:
     source-map "~0.6.1"
     source-map-support "~0.5.12"
 
-test-drive@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/test-drive/-/test-drive-1.0.4.tgz#ee7e88a9b26de799deb9017531b2ee8db6d0212f"
-  integrity sha512-Uxk0Fcwat4wobOx6SH+YM08swEP3auYFs6RNtVu/qwX7WfDsdUZ3nObBYG/Rg8RjlSk1bZLbqy26sW9hQiqBCA==
+test-drive@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/test-drive/-/test-drive-1.1.0.tgz#598eaf5173c1aa1a8546e515e2022088ef8c73f8"
+  integrity sha512-xsbT4QZiHOq+2LoM/dWlk85NvoZRkbNA8GnGAXPzb3uzeSJkfdCiOSw6lMmYO42uMPnQZ9c3eePUvOXy66acMw==
   dependencies:
     chai "^4.2.0"
     chai-as-promised "^7.1.1"
@@ -4204,7 +4204,7 @@ test-drive@^1.0.4:
     chai-style "^1.0.3"
     dom-matches "^2.0.0"
     promise-assist "^1.3.0"
-    sinon "^8.0.1"
+    sinon "^8.0.4"
     sinon-chai "^3.4.0"
 
 text-table@^0.2.0:
