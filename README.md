@@ -1,6 +1,6 @@
 # test-drive-react
 [![npm version](https://badge.fury.io/js/test-drive-react.svg)](https://www.npmjs.com/package/test-drive-react)
-[![Build Status](https://github.com/wixplosives/test-drive-react/workflows/CI/badge.svg)](https://github.com/wixplosives/test-drive-react/actions)
+[![Build Status](https://github.com/wixplosives/test-drive-react/workflows/tests/badge.svg)](https://github.com/wixplosives/test-drive-react/actions)
 
 Opinionated library for Test-Driven Development of React components, extending
 [Test Drive](https://github.com/wix/test-drive) and providing its
