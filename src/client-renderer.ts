@@ -5,7 +5,6 @@ import { DriverBase, IDriverConstructor } from './driver-base';
 
 export interface IRenderingContext<P = {}> {
     container: HTMLDivElement;
-    result: void | Element | React.Component<P>;
     select(...selectors: string[]): Element | null;
     ensuredSelect(...selectors: string[]): Element;
     withDriver<D extends DriverBase, E extends Element | Text | null>(
@@ -29,11 +28,10 @@ export class ClientRenderer {
 
             this.containers.push(container);
         }
-        const result = ReactDOM.render(element, container);
+        ReactDOM.render(element, container);
         const select = selectDom(container);
         return {
             container,
-            result,
             select,
             ensuredSelect(...selectors) {
                 const foundElement = select(...selectors);
