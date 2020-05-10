@@ -61,5 +61,10 @@
     "url": "https://github.com/wixplosives/test-drive-react/issues"
   },
   "homepage": "https://github.com/wixplosives/test-drive-react#readme",
-  "license": "MIT"
+  "license": "MIT",
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "tabWidth": 4
+  }
 }
