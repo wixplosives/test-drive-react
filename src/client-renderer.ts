@@ -49,13 +49,13 @@ export class ClientRenderer {
                 const driver = new DriverClass(() => container!.firstElementChild as E);
                 return {
                     driver,
-                    container: container!
+                    container: container!,
                 };
-            }
+            },
         };
     }
 
-    public cleanup() {
+    public cleanup(): void {
         for (const container of this.containers) {
             ReactDOM.unmountComponentAtNode(container);
             document.body.removeChild(container);

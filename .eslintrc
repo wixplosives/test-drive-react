@@ -22,13 +22,8 @@
         "project": "./tsconfig.json"
     },
     "rules": {
-        "@typescript-eslint/no-floating-promises": "error",
         "@typescript-eslint/ban-types": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
-        "@typescript-eslint/no-use-before-define": "off",
-        "react/no-find-dom-node": "off",
-        "react/no-render-return-value": "off",
         "react/prop-types": "off"
     }
 }

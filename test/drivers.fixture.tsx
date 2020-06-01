@@ -7,10 +7,10 @@ export const SAMPLE_MUTATED_LABEL = 'Mutated sample part';
 
 export class TestComponent extends React.Component<{ onAction?: () => void }> {
     public state = {
-        label: SAMPLE_INITIAL_LABEL
+        label: SAMPLE_INITIAL_LABEL,
     };
 
-    public render() {
+    public render(): JSX.Element {
         return (
             <div onClick={() => this.setState({ label: SAMPLE_MUTATED_LABEL })} {...this.props}>
                 <div data-automation-id="SAMPLE_PART">{this.state.label}</div>
@@ -22,11 +22,11 @@ export class TestComponent extends React.Component<{ onAction?: () => void }> {
 export class TestComponentDriver extends DriverBase<HTMLElement> {
     public static ComponentClass = TestComponent;
 
-    get samplePart() {
+    get samplePart(): HTMLDivElement {
         return this.ensuredSelect('SAMPLE_PART') as HTMLDivElement;
     }
 
-    public clickRoot() {
+    public clickRoot(): void {
         this.ensuredRoot.click();
     }
 }
@@ -40,21 +40,21 @@ export const TestStatelessComponent: React.FunctionComponent = () => (
 export class TestStatelessComponentDriver extends DriverBase {
     public static ComponentClass = TestStatelessComponent;
 
-    get samplePart() {
+    get samplePart(): HTMLDivElement {
         return this.ensuredSelect('SAMPLE_PART') as HTMLDivElement;
     }
 }
 
 export class TestNullComponent extends React.Component<{}, { on?: boolean }> {
     public state = {
-        on: false
+        on: false,
     };
 
-    public toggle() {
+    public toggle(): void {
         this.setState({ on: true });
     }
 
-    public render() {
+    public render(): JSX.Element | null {
         if (this.state.on) {
             return <div data-automation-id="SAMPLE_PART">ON</div>;
         } else {
@@ -67,20 +67,21 @@ export class TestNullComponentDriver extends DriverBase<HTMLDivElement | null> {
     public static ComponentClass = TestNullComponent;
 
     constructor(public readonly instance: TestNullComponent) {
+        // eslint-disable-next-line react/no-find-dom-node
         super(() => ReactDOM.findDOMNode(instance) as HTMLDivElement | null);
     }
 
-    get samplePart() {
+    get samplePart(): HTMLDivElement {
         return this.ensuredSelect('SAMPLE_PART') as HTMLDivElement;
     }
 
-    public toggle() {
+    public toggle(): void {
         this.instance.toggle();
     }
 }
 
 export class TestCompositeComponent extends React.Component {
-    public render() {
+    public render(): JSX.Element {
         return (
             <div>
                 <TestComponent data-automation-id="TEST_COMPONENT" />

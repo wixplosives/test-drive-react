@@ -3,7 +3,7 @@ import { ClientRenderer, expect, Simulate, waitFor } from '../src';
 
 class SampleComp extends React.Component<{}, { clicked: boolean }> {
     public state = {
-        clicked: false
+        clicked: false,
     };
 
     public render() {
@@ -31,5 +31,4 @@ describe('Test Drive React', () => {
 
         await waitFor(() => expect(ensuredSelect('message')).to.have.text('Clicked!'));
     });
-
 });

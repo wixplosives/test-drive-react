@@ -11,7 +11,7 @@ import {
     TestStatelessComponentDriver,
     TestNullComponent,
     TestCompositeComponent,
-    TestCompositeComponentDriver
+    TestCompositeComponentDriver,
 } from './drivers.fixture';
 
 describe('Client Renderer', () => {
