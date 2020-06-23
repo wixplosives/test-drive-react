@@ -24,6 +24,7 @@
     "rules": {
         "@typescript-eslint/ban-types": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/unbound-method": "off",
         "react/prop-types": "off"
     }
 }
