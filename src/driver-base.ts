@@ -22,11 +22,11 @@ export class DriverBase<E extends Element | Text | null = Element> {
     }
 
     protected select(...selectors: string[]): Element | null {
-        const { ensuredRoot } = this;
-        if (!(ensuredRoot instanceof Element)) {
-            throw new Error(`root is not an Element.`);
+        const { root } = this;
+        if (!(root instanceof Element)) {
+            return null;
         }
-        return selectDom(ensuredRoot)(...selectors);
+        return selectDom(root)(...selectors);
     }
 
     protected ensuredSelect(...selectors: string[]): Element {
