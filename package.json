@@ -29,7 +29,7 @@
     "@types/chai": "^4.2.12",
     "@types/chai-dom": "^0.0.10",
     "@types/mocha": "^8.0.3",
-    "@types/react": "^16.9.47",
+    "@types/react": "^16.9.48",
     "@types/react-dom": "^16.9.8",
     "@types/sinon": "^9.0.5",
     "@types/sinon-chai": "^3.2.4",
