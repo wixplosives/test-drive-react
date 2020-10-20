@@ -37,7 +37,7 @@
     "@typescript-eslint/parser": "^4.4.1",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.13.0",
-    "eslint-plugin-react": "^7.21.4",
+    "eslint-plugin-react": "^7.21.5",
     "mocha": "^8.2.0",
     "mocha-pup": "^4.0.4",
     "puppeteer": "^5.3.1",
