@@ -19,8 +19,7 @@
         }
     },
     "parserOptions": {
-        "project": "./tsconfig.json",
-        "warnOnUnsupportedTypeScriptVersion": false
+        "project": "./tsconfig.json"
     },
     "rules": {
         "@typescript-eslint/ban-types": "off",
