@@ -22,7 +22,7 @@
     "react-dom": ">=15.5.0"
   },
   "dependencies": {
-    "test-drive": "^1.1.1"
+    "test-drive": "^1.1.2"
   },
   "devDependencies": {
     "@ts-tools/webpack-loader": "^2.1.1",
