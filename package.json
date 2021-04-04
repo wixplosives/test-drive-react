@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@ts-tools/webpack-loader": "^2.1.1",
-    "@types/chai": "^4.2.15",
+    "@types/chai": "^4.2.16",
     "@types/chai-dom": "^0.0.10",
     "@types/mocha": "^8.2.2",
     "@types/react": "^17.0.3",
