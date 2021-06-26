@@ -1,3 +1,4 @@
+/** @type {import('webpack').Configuration} */
 module.exports = {
     mode: 'development',
     devtool: 'source-map',
@@ -5,13 +6,11 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: {
-                    loader: '@ts-tools/webpack-loader'
-                }
-            }
-        ]
+                loader: '@ts-tools/webpack-loader',
+            },
+        ],
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.json']
-    }
-}
+        extensions: ['.ts', '.tsx', '.js', '.json'],
+    },
+};
