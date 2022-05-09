@@ -25,9 +25,9 @@
     "test-drive": "^1.2.0"
   },
   "devDependencies": {
-    "@ts-tools/webpack-loader": "^3.0.2",
+    "@ts-tools/webpack-loader": "^4.0.0",
     "@types/chai": "^4.3.1",
-    "@types/chai-dom": "^0.0.12",
+    "@types/chai-dom": "^0.0.13",
     "@types/mocha": "^9.1.1",
     "@types/react": "^17.0.44",
     "@types/react-dom": "^17.0.16",
