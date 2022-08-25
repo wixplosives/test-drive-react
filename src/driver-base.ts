@@ -18,7 +18,7 @@ export class DriverBase<E extends Element | Text | null = Element> {
         if (root === null) {
             throw new Error(`Cannot find root`);
         }
-        return root!;
+        return root;
     }
 
     protected select(...selectors: string[]): Element | null {
