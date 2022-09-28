@@ -28,7 +28,7 @@
     "@ts-tools/webpack-loader": "^4.0.0",
     "@types/chai": "^4.3.3",
     "@types/chai-dom": "^0.0.13",
-    "@types/mocha": "^9.1.1",
+    "@types/mocha": "^10.0.0",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@types/sinon": "^10.0.13",
