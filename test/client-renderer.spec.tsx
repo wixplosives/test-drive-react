@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { ClientRenderer, expect, sinon, waitFor } from '../src';
 import {
     SAMPLE_INITIAL_LABEL,
@@ -18,23 +17,23 @@ describe('Client Renderer', () => {
     const clientRenderer = new ClientRenderer();
     afterEach(() => clientRenderer.cleanup());
 
-    it('creates a container, adds it to the body, and renders into it', () => {
+    it('creates a container, adds it to the body, and renders into it', async () => {
         const { container } = clientRenderer.render(<h2>Also this</h2>);
 
         expect(container.parentNode).to.equal(document.body);
-        expect(container).to.contain.text('Also this');
+        await waitFor(() => expect(container).to.contain.text('Also this'));
     });
 
-    it('uses provided container does not automatically add it to the body', () => {
+    it('uses provided container does not automatically add it to the body', async () => {
         const userDefinedContainer = document.createElement('div');
 
-        const { container } = clientRenderer.render(<h1>It is working</h1>, userDefinedContainer);
+        const { container, reactRoot } = clientRenderer.render(<h1>It is working</h1>, userDefinedContainer);
 
         expect(container).to.equal(userDefinedContainer);
-        expect(container).to.contain.text('It is working');
         expect(container.parentElement).to.equal(null);
+        await waitFor(() => expect(container).to.contain.text('It is working'));
 
-        ReactDOM.unmountComponentAtNode(container);
+        reactRoot.unmount();
     });
 
     describe('cleanup', () => {
@@ -47,48 +46,56 @@ describe('Client Renderer', () => {
             }
         }
 
-        it('should unmount components rendered into auto-created containers', () => {
+        it('should unmount components rendered into auto-created containers', async () => {
             const componentWillUnmount = sinon.spy();
-            clientRenderer.render(<TestComp componentWillUnmount={componentWillUnmount} />);
+            const { container } = clientRenderer.render(<TestComp componentWillUnmount={componentWillUnmount} />);
+
+            await waitFor(() => expect(container).to.contain.html('div'));
 
             clientRenderer.cleanup();
 
             expect(componentWillUnmount.getCalls()).to.have.lengthOf(1);
         });
 
-        it('should not try to unmount an already unmounted component', () => {
+        it('should not try to unmount an already unmounted component', async () => {
             const componentWillUnmount = sinon.spy();
-            clientRenderer.render(<TestComp componentWillUnmount={componentWillUnmount} />);
+            const { container } = clientRenderer.render(<TestComp componentWillUnmount={componentWillUnmount} />);
+            await waitFor(() => expect(container).to.contain.html('div'));
 
             clientRenderer.cleanup();
             clientRenderer.cleanup();
+            expect(componentWillUnmount.getCalls()).to.have.lengthOf(1);
         });
 
-        it('should not unmount components rendered into provided containers', () => {
+        it('should not unmount components rendered into provided containers', async () => {
             const componentWillUnmount = sinon.spy();
-            const container = document.createElement('div');
-            clientRenderer.render(<TestComp componentWillUnmount={componentWillUnmount} />, container);
+            const { container, reactRoot } = clientRenderer.render(
+                <TestComp componentWillUnmount={componentWillUnmount} />,
+                document.createElement('div')
+            );
+            await waitFor(() => expect(container).to.contain.html('div'));
 
             clientRenderer.cleanup();
 
             expect(componentWillUnmount.getCalls()).to.have.lengthOf(0);
-            ReactDOM.unmountComponentAtNode(container);
+            reactRoot.unmount();
         });
     });
 
     describe('withDriver', () => {
         it('for classic component', async () => {
             const { driver } = clientRenderer.render(<TestComponent />).withDriver(TestComponentDriver);
-            expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
+            await waitFor(() => expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL));
+
             driver.clickRoot();
             await waitFor(() => expect(driver.samplePart).to.have.text(SAMPLE_MUTATED_LABEL));
         });
 
-        it('for functional component', () => {
+        it('for functional component', async () => {
             const { driver } = clientRenderer
                 .render(<TestStatelessComponent />)
                 .withDriver(TestStatelessComponentDriver);
-            expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
+            await waitFor(() => expect(driver.samplePart).to.have.text(SAMPLE_INITIAL_LABEL));
         });
 
         it('for component returning null', async () => {
@@ -111,7 +118,7 @@ describe('Client Renderer', () => {
                 .render(<TestCompositeComponent />)
                 .withDriver(TestCompositeComponentDriver);
 
-            expect(driver.testComponent.samplePart).to.have.text(SAMPLE_INITIAL_LABEL);
+            await waitFor(() => expect(driver.testComponent.samplePart).to.have.text(SAMPLE_INITIAL_LABEL));
 
             driver.testComponent.clickRoot();
 
@@ -126,15 +133,17 @@ describe('Client Renderer', () => {
             );
         });
 
-        it('returns provided container', () => {
+        it('returns provided container', async () => {
             const userDefinedContainer = document.createElement('div');
 
-            const { container } = clientRenderer
+            const { container, reactRoot, driver } = clientRenderer
                 .render(<TestCompositeComponent />, userDefinedContainer)
                 .withDriver(TestCompositeComponentDriver);
 
+            await waitFor(() => expect(driver.testComponent.samplePart).to.have.text(SAMPLE_INITIAL_LABEL));
+
             expect(container).to.equal(userDefinedContainer);
-            ReactDOM.unmountComponentAtNode(userDefinedContainer);
+            reactRoot.unmount();
         });
     });
 });
