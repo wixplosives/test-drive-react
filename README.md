@@ -89,3 +89,7 @@ members:
 In the case of composite components, the drivers should mirror their structure as well. `.samplePart` in
 the above example should, therefore, reference another (relevant) component driver, rather than plain DOM Element,
 if it corresponds to custom component.
+
+# License
+
+MIT
