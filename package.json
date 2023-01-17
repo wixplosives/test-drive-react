@@ -37,7 +37,7 @@
     "@typescript-eslint/parser": "^5.48.2",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-react": "^7.32.0",
+    "eslint-plugin-react": "^7.32.1",
     "mocha": "^10.2.0",
     "mocha-play": "^4.1.2",
     "playwright-chromium": "^1.29.2",
