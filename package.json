@@ -42,9 +42,9 @@
     "playwright-chromium": "^1.33.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rimraf": "^5.0.0",
+    "rimraf": "^5.0.1",
     "typescript": "~5.0.4",
-    "webpack": "^5.83.0"
+    "webpack": "^5.83.1"
   },
   "files": [
     "cjs",
