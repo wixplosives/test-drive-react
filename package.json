@@ -35,7 +35,7 @@
     "@types/sinon-chai": "^3.2.9",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "eslint": "^8.46.0",
-    "eslint-config-prettier": "^8.9.0",
+    "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-react": "^7.33.1",
     "mocha": "^10.2.0",
     "mocha-play": "^6.0.0",
