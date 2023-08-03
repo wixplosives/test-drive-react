@@ -94,6 +94,6 @@ export class TestCompositeComponentDriver extends DriverBase<HTMLDivElement> {
     public static ComponentClass = TestCompositeComponent;
 
     public readonly testComponent = new TestComponentDriver(
-        () => this.ensuredSelect('TEST_COMPONENT') as HTMLDivElement
+        () => this.ensuredSelect('TEST_COMPONENT') as HTMLDivElement,
     );
 }

@@ -8,7 +8,7 @@ export interface IRenderingContext<P = {}> {
     select(...selectors: string[]): Element | null;
     ensuredSelect(...selectors: string[]): Element;
     withDriver<D extends DriverBase, E extends Element | Text | null>(
-        DriverClass: IDriverConstructor<D, P, E>
+        DriverClass: IDriverConstructor<D, P, E>,
     ): IRenderingContextWithDriver<D>;
 }
 
@@ -41,7 +41,7 @@ export class ClientRenderer {
                 return foundElement;
             },
             withDriver<D extends DriverBase, E extends Element | Text | null>(
-                DriverClass: IDriverConstructor<D, P, E>
+                DriverClass: IDriverConstructor<D, P, E>,
             ): IRenderingContextWithDriver<D> {
                 if (DriverClass.ComponentClass !== element.type) {
                     throw new Error('The driver/component mismatch. Driver creation failed.');

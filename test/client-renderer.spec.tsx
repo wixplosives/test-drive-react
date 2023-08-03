@@ -122,7 +122,7 @@ describe('Client Renderer', () => {
             class AnotherComponent extends TestComponent {}
 
             expect(() => clientRenderer.render(<AnotherComponent />).withDriver(TestComponentDriver)).to.throw(
-                'The driver/component mismatch. Driver creation failed.'
+                'The driver/component mismatch. Driver creation failed.',
             );
         });
 
