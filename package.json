@@ -39,7 +39,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react": "^7.33.2",
     "mocha": "^10.2.0",
-    "mocha-play": "^6.0.0",
+    "mocha-play": "^6.0.2",
     "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
