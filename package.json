@@ -25,7 +25,7 @@
     "test-drive": "^1.4.0"
   },
   "devDependencies": {
-    "@playwright/browser-chromium": "^1.40.0",
+    "@playwright/browser-chromium": "^1.40.1",
     "@ts-tools/webpack-loader": "^5.0.2",
     "@types/chai": "^4.3.11",
     "@types/chai-dom": "^1.11.3",
@@ -34,7 +34,7 @@
     "@types/react-dom": "^18.2.17",
     "@types/sinon": "^17.0.2",
     "@types/sinon-chai": "^3.2.12",
-    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react": "^7.33.2",
