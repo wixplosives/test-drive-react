@@ -46,10 +46,10 @@ export class ClientRenderer {
                 if (DriverClass.ComponentClass !== element.type) {
                     throw new Error('The driver/component mismatch. Driver creation failed.');
                 }
-                const driver = new DriverClass(() => container!.firstElementChild as E);
+                const driver = new DriverClass(() => container.firstElementChild as E);
                 return {
                     driver,
-                    container: container!,
+                    container: container,
                 };
             },
         };
