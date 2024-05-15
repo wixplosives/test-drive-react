@@ -22,7 +22,7 @@
     "react-dom": ">=15.5.0"
   },
   "dependencies": {
-    "test-drive": "^1.4.0"
+    "test-drive": "^1.5.0"
   },
   "devDependencies": {
     "@playwright/browser-chromium": "^1.44.0",
