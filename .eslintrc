@@ -17,12 +17,13 @@
     }
   },
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "projectService": true
   },
   "rules": {
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/unbound-method": "off",
+    "@typescript-eslint/no-empty-object-type": "off",
     "react/prop-types": "off",
     "react/no-deprecated": "off"
   }
