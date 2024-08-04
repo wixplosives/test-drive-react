@@ -12,7 +12,7 @@
     "build:cjs": "tsc -p tsconfig.build.json --outDir cjs --module commonjs",
     "build:esm": "tsc -p tsconfig.build.json --outDir esm --module esnext",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint .",
+    "lint": "eslint",
     "pretest": "npm run typecheck && npm run lint",
     "test": "mocha-web \"./test/**/*.ts?(x)\"",
     "prepack": "npm run build"
@@ -25,6 +25,8 @@
     "test-drive": "^1.5.0"
   },
   "devDependencies": {
+    "@eslint/compat": "^1.1.1",
+    "@eslint/js": "^9.8.0",
     "@playwright/browser-chromium": "^1.45.3",
     "@types/chai": "^4.3.17",
     "@types/chai-dom": "^1.11.3",
@@ -33,10 +35,10 @@
     "@types/react-dom": "^18.3.0",
     "@types/sinon": "^17.0.3",
     "@types/sinon-chai": "^3.2.12",
-    "@typescript-eslint/eslint-plugin": "^8.0.0",
     "esbuild": "^0.23.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-no-only-tests": "^3.1.0",
     "eslint-plugin-react": "^7.35.0",
     "mocha": "^10.7.0",
     "mocha-web": "^1.0.2",
@@ -44,7 +46,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "rimraf": "^6.0.1",
-    "typescript": "~5.5.4"
+    "typescript": "~5.5.4",
+    "typescript-eslint": "^8.0.0"
   },
   "files": [
     "cjs",
