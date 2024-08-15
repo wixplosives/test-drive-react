@@ -1,4 +1,3 @@
-import { fixupPluginRules } from '@eslint/compat';
 import pluginJs from '@eslint/js';
 import configPrettier from 'eslint-config-prettier';
 import pluginNoOnlyTests from 'eslint-plugin-no-only-tests';
@@ -17,7 +16,7 @@ export default [
   // pluginReact.configs.flat["jsx-runtime"],
   { settings: { react: { version: 'detect' } } },
 
-  { plugins: { 'no-only-tests': fixupPluginRules(pluginNoOnlyTests) } },
+  { plugins: { 'no-only-tests': pluginNoOnlyTests } },
   configPrettier,
 
   {
