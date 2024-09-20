@@ -25,7 +25,7 @@
     "test-drive": "^1.6.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.10.0",
+    "@eslint/js": "^9.11.0",
     "@playwright/browser-chromium": "^1.47.1",
     "@types/chai": "^4.3.19",
     "@types/chai-dom": "^1.11.3",
