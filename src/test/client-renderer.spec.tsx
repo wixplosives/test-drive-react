@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ClientRenderer, expect, sinon, waitFor } from '../src';
+import { ClientRenderer, expect, sinon, waitFor } from '../index.js';
 import {
     SAMPLE_INITIAL_LABEL,
     SAMPLE_MUTATED_LABEL,
@@ -12,7 +12,7 @@ import {
     TestNullComponent,
     TestCompositeComponent,
     TestCompositeComponentDriver,
-} from './drivers.fixture';
+} from './drivers.fixture.js';
 
 describe('Client Renderer', () => {
     const clientRenderer = new ClientRenderer();

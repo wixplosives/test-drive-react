@@ -1,5 +1,5 @@
 import React from 'react';
-import { ClientRenderer, expect, Simulate, waitFor } from '../src';
+import { ClientRenderer, expect, Simulate, waitFor } from '../index.js';
 
 class SampleComp extends React.Component<{}, { clicked: boolean }> {
     public state = {

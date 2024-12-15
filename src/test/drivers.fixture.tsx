@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { DriverBase } from '../src';
+import { DriverBase } from '../index.js';
 
 export const SAMPLE_INITIAL_LABEL = 'Sample Part';
 export const SAMPLE_MUTATED_LABEL = 'Mutated sample part';
