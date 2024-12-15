@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { selectDom } from 'test-drive';
-import { DriverBase, IDriverConstructor } from './driver-base';
+import { DriverBase, type IDriverConstructor } from './driver-base.js';
 
 export interface IRenderingContext<P = {}> {
     container: HTMLDivElement;
